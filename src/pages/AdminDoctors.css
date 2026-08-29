@@ -1,0 +1,378 @@
+.admin-doctors-page {
+  min-height: 100vh;
+  padding: 70px 6% 80px;
+}
+
+.admin-doctors-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+/* Header */
+
+.admin-doctors-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.admin-doctors-header p {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+
+.admin-doctors-header h1 {
+  font-size: clamp(34px, 5vw, 52px);
+  margin-bottom: 10px;
+}
+
+.admin-doctors-header span {
+  opacity: 0.7;
+}
+
+
+/* Add button */
+
+.add-doctor-button {
+  padding: 13px 20px;
+  border: none;
+  border-radius: 11px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+
+/* Messages */
+
+.doctor-message {
+  padding: 18px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  text-align: center;
+  opacity: 0.75;
+}
+
+.doctor-message.error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+  opacity: 1;
+}
+
+.doctor-message.success {
+  background: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+  opacity: 1;
+}
+
+
+/* Form card */
+
+.doctor-form-card {
+  margin-bottom: 35px;
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.doctor-form-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.doctor-form-header p {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.55;
+  margin-bottom: 6px;
+}
+
+.doctor-form-header h2 {
+  font-size: 25px;
+}
+
+.close-form-button {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: rgba(128, 128, 128, 0.1);
+  font-size: 24px;
+}
+
+
+/* Form */
+
+.doctor-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: currentColor;
+}
+
+
+/* Form actions */
+
+.doctor-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.cancel-button,
+.save-doctor-button {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.cancel-button {
+  background: rgba(128, 128, 128, 0.1);
+}
+
+.save-doctor-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* Doctors list */
+
+.doctors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+
+/* Doctor card */
+
+.admin-doctor-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.doctor-card-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  min-width: 0;
+}
+
+.doctor-avatar {
+  width: 55px;
+  height: 55px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(128, 128, 128, 0.1);
+  font-size: 25px;
+}
+
+.doctor-card-info {
+  min-width: 0;
+}
+
+.doctor-card-info h2 {
+  font-size: 19px;
+  margin-bottom: 5px;
+}
+
+.doctor-specialty {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.doctor-email,
+.doctor-experience {
+  font-size: 13px;
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+
+.doctor-description {
+  margin-top: 10px;
+  max-width: 700px;
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.65;
+  overflow-wrap: anywhere;
+}
+
+
+/* Actions */
+
+.doctor-card-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.edit-doctor-button,
+.delete-doctor-button {
+  padding: 10px 16px;
+  border-radius: 9px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.edit-doctor-button {
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  background: transparent;
+}
+
+.delete-doctor-button {
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+}
+
+
+/* Responsive */
+
+@media (max-width: 800px) {
+
+  .admin-doctors-page {
+    padding: 50px 5% 60px;
+  }
+
+  .admin-doctors-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .doctor-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full-width {
+    grid-column: auto;
+  }
+
+  .admin-doctor-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .doctor-card-actions {
+    width: 100%;
+  }
+
+  .edit-doctor-button,
+  .delete-doctor-button {
+    flex: 1;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .doctor-form-card {
+    padding: 20px;
+  }
+
+  .doctor-form-actions {
+    flex-direction: column;
+  }
+
+  .cancel-button,
+  .save-doctor-button {
+    width: 100%;
+  }
+
+}
+
+
+/* Delete messages */
+
+.doctor-delete-message {
+  margin-top: 15px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.doctor-delete-message.error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+}
+
+.doctor-delete-message.success {
+  background: rgba(34, 197, 94, 0.12);
+  color: #15803d;
+}
+
+.doctor-delete-message.loading {
+  background: rgba(128, 128, 128, 0.1);
+  opacity: 0.7;
+}
+
+.delete-doctor-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
