@@ -1,0 +1,79 @@
+/* =========================================
+   REUSABLE ERROR MESSAGE
+   SMARTCLINIC PRO DARK THEME
+========================================= */
+
+.error-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 18px 20px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+}
+
+.error-message-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.error-message-content {
+  flex: 1;
+}
+
+.error-message-content h3 {
+  margin: 0 0 5px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.error-message-content p {
+  margin: 0;
+  color: #fca5a5;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.error-message-retry {
+  margin-top: 12px;
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: 7px;
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.error-message-retry:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: #f87171;
+  color: #ffffff;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+  .error-message {
+    padding: 15px;
+  }
+
+  .error-message-content p {
+    font-size: 13px;
+  }
+}

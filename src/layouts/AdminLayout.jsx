@@ -101,6 +101,21 @@ function AdminLayout() {
             Appointments
           </NavLink>
 
+<NavLink
+  to="/admin/contact-messages"
+  className={({ isActive }) =>
+    isActive
+      ? "admin-nav-link active"
+      : "admin-nav-link"
+  }
+>
+  <span className="admin-nav-icon">
+    ✉️
+  </span>
+
+  Messages
+</NavLink>
+
         </nav>
 
 

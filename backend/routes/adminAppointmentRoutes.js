@@ -1,11 +1,19 @@
 const express = require("express");
 const pool = require("../db");
+const {
+  authenticate,
+  authorizeRole,
+} = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 
 // GET all appointments
-router.get("/", async (req, res) => {
+router.get(
+  "/",
+  authenticate,
+  authorizeRole("admin"),
+  async (req, res) => {
   try {
     const result = await pool.query(
       `SELECT
@@ -46,7 +54,8 @@ router.get("/", async (req, res) => {
       message: "Failed to fetch appointments.",
     });
   }
-});
+  }
+);
 
 
 module.exports = router;

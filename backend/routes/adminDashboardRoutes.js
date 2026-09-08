@@ -1,11 +1,19 @@
 const express = require("express");
 const pool = require("../db");
+const {
+  authenticate,
+  authorizeRole,
+} = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 
 // GET admin dashboard statistics
-router.get("/stats", async (req, res) => {
+router.get(
+  "/stats",
+  authenticate,
+  authorizeRole("admin"),
+  async (req, res) => {
   try {
 
     const patientsResult = await pool.query(
@@ -63,13 +71,18 @@ router.get("/stats", async (req, res) => {
     });
 
   }
-});
+  }
+);
 
 // =====================================================
 // GET PATIENT DETAILS
 // =====================================================
 
-router.get("/patient/:patientId", async (req, res) => {
+router.get(
+  "/patient/:patientId",
+  authenticate,
+  authorizeRole("admin"),
+  async (req, res) => {
   try {
     const { patientId } = req.params;
 
@@ -126,6 +139,7 @@ router.get("/patient/:patientId", async (req, res) => {
       message: "Failed to fetch patient details.",
     });
   }
-});
+  }
+);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "../api/api";
 import "./AdminAppointments.css";
 
 function AdminAppointments() {
@@ -12,7 +13,7 @@ function AdminAppointments() {
     try {
       setError("");
 
-      const response = await fetch(
+      const response = await apiFetch(
         "http://localhost:5000/api/admin/appointments"
       );
 

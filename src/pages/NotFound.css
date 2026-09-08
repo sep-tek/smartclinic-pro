@@ -1,0 +1,142 @@
+
+/* =========================================
+   404 NOT FOUND
+   SMARTCLINIC PRO DARK THEME
+========================================= */
+
+.not-found-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  box-sizing: border-box;
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.not-found-content {
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+}
+
+/* 404 NUMBER */
+
+.not-found-code {
+  margin-bottom: 5px;
+  color: #38bdf8;
+  font-size: clamp(100px, 18vw, 180px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -8px;
+  text-shadow: 0 0 40px rgba(56, 189, 248, 0.15);
+}
+
+/* LABEL */
+
+.not-found-label {
+  margin: 25px 0 10px;
+  color: #38bdf8;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* TITLE */
+
+.not-found-content h1 {
+  margin: 0 0 15px;
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* DESCRIPTION */
+
+.not-found-description {
+  max-width: 550px;
+  margin: 0 auto;
+  color: #94a3b8;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* BUTTONS */
+
+.not-found-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.not-found-home-button,
+.not-found-contact-button {
+  padding: 12px 22px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.not-found-home-button {
+  background: linear-gradient(
+    135deg,
+    #38bdf8,
+    #6366f1
+  );
+  color: #ffffff;
+  border: 1px solid transparent;
+}
+
+.not-found-home-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(56, 189, 248, 0.2);
+}
+
+.not-found-contact-button {
+  background: transparent;
+  color: #cbd5e1;
+  border: 1px solid #475569;
+}
+
+.not-found-contact-button:hover {
+  background: #1e293b;
+  color: #ffffff;
+  border-color: #64748b;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+  .not-found-page {
+    padding: 40px 20px;
+  }
+
+  .not-found-code {
+    letter-spacing: -5px;
+  }
+
+  .not-found-content h1 {
+    font-size: 25px;
+  }
+
+  .not-found-description {
+    font-size: 14px;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 300px;
+    margin: 30px auto 0;
+  }
+
+  .not-found-home-button,
+  .not-found-contact-button {
+    text-align: center;
+  }
+}

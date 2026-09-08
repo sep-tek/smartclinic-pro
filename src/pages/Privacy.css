@@ -1,0 +1,118 @@
+
+/* =========================================
+   PRIVACY POLICY
+   SMARTCLINIC PRO DARK THEME
+========================================= */
+
+.privacy-page {
+  min-height: 100vh;
+  padding: 60px 20px;
+  background: #0f172a;
+  color: #cbd5e1;
+}
+
+.privacy-container {
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+
+.privacy-header {
+  margin-bottom: 45px;
+  text-align: center;
+}
+
+.privacy-header p {
+  margin: 0 0 10px;
+  color: #38bdf8;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.privacy-header h1 {
+  margin: 0 0 15px;
+  color: #ffffff;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.privacy-header span {
+  display: block;
+  max-width: 700px;
+  margin: 0 auto;
+  color: #94a3b8;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* CONTENT */
+
+.privacy-content {
+  padding: 40px;
+  background: #1e293b;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.privacy-content section {
+  margin-bottom: 35px;
+}
+
+.privacy-content section:last-child {
+  margin-bottom: 0;
+}
+
+.privacy-content h2 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 650;
+}
+
+.privacy-content p {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* FOOTER */
+
+.privacy-footer {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.privacy-footer span {
+  color: #64748b;
+  font-size: 12px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+  .privacy-page {
+    padding: 40px 15px;
+  }
+
+  .privacy-header h1 {
+    font-size: 32px;
+  }
+
+  .privacy-content {
+    padding: 25px 20px;
+  }
+
+  .privacy-content h2 {
+    font-size: 17px;
+  }
+
+  .privacy-content p {
+    font-size: 13px;
+  }
+}

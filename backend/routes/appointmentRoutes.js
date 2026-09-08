@@ -1,5 +1,9 @@
 const express = require("express");
 const pool = require("../db");
+const {
+  authenticate,
+  authorizeRole,
+} = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -26,14 +30,19 @@ router.get("/doctors", async (req, res) => {
 
 
 // CREATE appointment
-router.post("/", async (req, res) => {
+router.post(
+  "/",
+  authenticate,
+  authorizeRole("patient"),
+  async (req, res) => {
   try {
     const {
-      patient_id,
       doctor_id,
       appointment_date,
       notes,
     } = req.body;
+
+    const patient_id = req.user.id;
 
     if (
       !patient_id ||
@@ -71,13 +80,25 @@ router.post("/", async (req, res) => {
       message: "Failed to book appointment.",
     });
   }
-});
+  }
+);
 
 
 // GET patient's appointments
-router.get("/patient/:patientId", async (req, res) => {
+router.get(
+  "/patient/:patientId",
+  authenticate,
+  authorizeRole("patient"),
+  async (req, res) => {
   try {
     const { patientId } = req.params;
+
+    if (req.user.id !== Number(patientId)) {
+      return res.status(403).json({
+        message:
+          "You do not have permission to access these appointments.",
+      });
+    }
 
     const result = await pool.query(
       `SELECT
@@ -107,7 +128,8 @@ router.get("/patient/:patientId", async (req, res) => {
       message: "Failed to fetch appointments.",
     });
   }
-});
+  }
+);
 
 
 module.exports = router;

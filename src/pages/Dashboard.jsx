@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import AdminDashboard from "./AdminDashboard";
 import DoctorDashboard from "./DoctorDashboard";
+import { apiFetch } from "../api/api";
 import "./Dashboard.css";
 
 function Dashboard() {
@@ -18,7 +19,7 @@ useEffect(() => {
 
   async function loadAppointments() {
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://localhost:5000/api/appointments/patient/${user.id}`
       );
 

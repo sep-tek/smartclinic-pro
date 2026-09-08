@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "../api/api";
 import "./AdminUsers.css";
 
 function AdminUsers() {
@@ -22,7 +23,7 @@ function AdminUsers() {
 
       setError("");
 
-      const response = await fetch(
+      const response = await apiFetch(
         "http://localhost:5000/api/users"
       );
 
@@ -89,7 +90,7 @@ function AdminUsers() {
       setMessage("");
 
 
-      const response = await fetch(
+      const response = await apiFetch(
         `http://localhost:5000/api/users/${user.id}/${action}`,
         {
           method: "PATCH",

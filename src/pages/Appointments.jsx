@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { apiFetch } from "../api/api";
 import "./Appointments.css";
 
 function Appointments() {
@@ -23,7 +24,7 @@ function Appointments() {
   useEffect(() => {
     async function loadData() {
       try {
-        const doctorsResponse = await fetch(
+        const doctorsResponse = await apiFetch(
           "http://localhost:5000/api/appointments/doctors"
         );
 
@@ -35,7 +36,7 @@ function Appointments() {
 
         setDoctors(doctorsData);
 
-        const appointmentsResponse = await fetch(
+        const appointmentsResponse = await apiFetch(
           `http://localhost:5000/api/appointments/patient/${user.id}`
         );
 
@@ -75,7 +76,7 @@ function Appointments() {
     setBooking(true);
 
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         "http://localhost:5000/api/appointments",
         {
           method: "POST",
@@ -111,7 +112,7 @@ function Appointments() {
       });
 
       // Reload appointments
-      const appointmentsResponse = await fetch(
+      const appointmentsResponse = await apiFetch(
         `http://localhost:5000/api/appointments/patient/${user.id}`
       );
 

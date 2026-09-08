@@ -9,8 +9,11 @@ CREATE TABLE IF NOT EXISTS users (
 
     role VARCHAR(20) NOT NULL DEFAULT 'patient',
 
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE IF NOT EXISTS doctors (
     id SERIAL PRIMARY KEY,
@@ -23,7 +26,16 @@ CREATE TABLE IF NOT EXISTS doctors (
 
     description TEXT,
 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    user_id INTEGER UNIQUE,
+
+    is_available BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_doctor_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
 );
 
 
@@ -78,6 +90,7 @@ CREATE TABLE IF NOT EXISTS contact_messages (
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 INSERT INTO services (name, description)
 VALUES

@@ -36,6 +36,12 @@ function Navbar() {
               Dashboard
             </Link>
 
+            {user.role === "admin" && (
+              <Link className="login-btn" to="/admin/contact-messages">
+                Messages
+              </Link>
+            )}
+
             <button
               className="signup-btn"
               onClick={handleLogout}

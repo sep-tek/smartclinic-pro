@@ -17,6 +17,12 @@ const adminAppointmentRoutes = require(
 const adminDashboardRoutes = require(
   "./routes/adminDashboardRoutes"
 );
+
+const contactRoutes = require("./routes/contactRoutes");
+const contactMessageRoutes = require(
+  "./routes/contactMessageRoutes"
+);
+
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -42,6 +48,12 @@ app.use(
   "/api/admin/dashboard",
   adminDashboardRoutes
 );
+app.use("/api/contact", contactRoutes);
+app.use(
+  "/api/admin/contact-messages",
+  contactMessageRoutes
+);
+
 // Test API
 app.get("/api", (req, res) => {
   res.json({

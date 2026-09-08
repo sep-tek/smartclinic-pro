@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "../api/api";
 import "./AdminDoctors.css";
 
 function AdminDoctors() {
@@ -32,7 +33,7 @@ function AdminDoctors() {
       setLoading(true);
       setError("");
 
-      const response = await fetch(
+      const response = await apiFetch(
         "http://localhost:5000/api/doctors"
       );
 
@@ -194,7 +195,7 @@ function AdminDoctors() {
       }
 
 
-      const response = await fetch(
+      const response = await apiFetch(
         url,
         {
           method,
@@ -277,7 +278,7 @@ function AdminDoctors() {
 
   try {
 
-    const response = await fetch(
+    const response = await apiFetch(
       `http://localhost:5000/api/doctors/${doctor.id}`,
       {
         method: "DELETE",

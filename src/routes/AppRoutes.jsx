@@ -20,7 +20,10 @@ import AdminDoctors from "../pages/AdminDoctors";
 import AdminUsers from "../pages/AdminUsers";
 import AdminAppointments from "../pages/AdminAppointments";
 import AdminDashboard from "../pages/AdminDashboard";
-
+import AdminContactMessages from "../pages/AdminContactMessages";
+import Privacy from "../pages/Privacy";
+import Terms from "../pages/Terms";
+import NotFound from "../pages/NotFound";
 
 function AppRoutes() {
   return (
@@ -66,7 +69,11 @@ function AppRoutes() {
           path="/register"
           element={<Register />}
         />
+      <Route path="/privacy" element={<Privacy />} />
 
+      <Route path="/terms" element={<Terms />} />
+
+      <Route path="*" element={<NotFound />} />
 
         {/* =========================
             PATIENT DASHBOARD
@@ -123,6 +130,11 @@ function AppRoutes() {
         <Route
           path="/admin/appointments"
           element={<AdminAppointments />}
+        />
+
+        <Route
+          path="/admin/contact-messages"
+          element={<AdminContactMessages />}
         />
 
       </Route>

@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
+import { apiFetch } from "../api/api";
 import "./DoctorDashboard.css";
 
 function DoctorDashboard() {
@@ -40,7 +41,7 @@ const patientDetailsRef = useRef(null);
     try {
       setError("");
 
-      const response = await fetch(
+      const response = await apiFetch(
         `http://localhost:5000/api/doctor-dashboard/${user.id}`
       );
 
@@ -126,7 +127,7 @@ useEffect(() => {
     status
   ) {
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `http://localhost:5000/api/doctor-dashboard/appointments/${appointmentId}/status`,
         {
           method: "PATCH",
@@ -167,7 +168,7 @@ async function viewPatient(patientId) {
     setPatientLoading(true);
     setPatientError("");
 
-    const response = await fetch(
+    const response = await apiFetch(
       `http://localhost:5000/api/doctor-dashboard/patient/${patientId}`
     );
 
@@ -246,7 +247,7 @@ async function saveProfile(event) {
     setProfileError("");
     setProfileSuccess("");
 
-    const response = await fetch(
+    const response = await apiFetch(
       `http://localhost:5000/api/doctor-dashboard/profile/${user.id}`,
       {
         method: "PUT",

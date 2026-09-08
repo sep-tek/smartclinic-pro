@@ -1,6 +1,10 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const pool = require("../db");
+const {
+  authenticate,
+  authorizeRole,
+} = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -50,7 +54,11 @@ router.get("/", async (req, res) => {
 // CREATE DOCTOR ACCOUNT + DOCTOR PROFILE
 // =====================================================
 
-router.post("/", async (req, res) => {
+router.post(
+  "/",
+  authenticate,
+  authorizeRole("admin"),
+  async (req, res) => {
 
   const client = await pool.connect();
 
@@ -199,14 +207,19 @@ router.post("/", async (req, res) => {
 
   }
 
-});
+  }
+);
 
 
 // =====================================================
 // UPDATE DOCTOR
 // =====================================================
 
-router.put("/:id", async (req, res) => {
+router.put(
+  "/:id",
+  authenticate,
+  authorizeRole("admin"),
+  async (req, res) => {
 
   const client = await pool.connect();
 
@@ -366,14 +379,19 @@ router.put("/:id", async (req, res) => {
 
   }
 
-});
+  }
+);
 
 
 // =====================================================
 // CHANGE DOCTOR AVAILABILITY
 // =====================================================
 
-router.patch("/:id/availability", async (req, res) => {
+router.patch(
+  "/:id/availability",
+  authenticate,
+  authorizeRole("admin"),
+  async (req, res) => {
 
   try {
 
@@ -470,14 +488,19 @@ router.patch("/:id/availability", async (req, res) => {
 
   }
 
-});
+  }
+);
 
 
 // =====================================================
 // DELETE DOCTOR
 // =====================================================
 
-router.delete("/:id", async (req, res) => {
+router.delete(
+  "/:id",
+  authenticate,
+  authorizeRole("admin"),
+  async (req, res) => {
 
   const client =
     await pool.connect();
@@ -594,7 +617,8 @@ router.delete("/:id", async (req, res) => {
 
   }
 
-});
+  }
+);
 
 
 module.exports = router;

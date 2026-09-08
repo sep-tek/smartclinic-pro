@@ -1,5 +1,9 @@
 const express = require("express");
 const pool = require("../db");
+const {
+  authenticate,
+  authorizeRole,
+} = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -8,7 +12,11 @@ const router = express.Router();
 // GET ALL USERS
 // =====================================================
 
-router.get("/", async (req, res) => {
+router.get(
+  "/",
+  authenticate,
+  authorizeRole("admin"),
+  async (req, res) => {
   try {
 
     const result = await pool.query(
@@ -37,14 +45,19 @@ router.get("/", async (req, res) => {
     });
 
   }
-});
+  }
+);
 
 
 // =====================================================
 // DEACTIVATE USER
 // =====================================================
 
-router.patch("/:id/deactivate", async (req, res) => {
+router.patch(
+  "/:id/deactivate",
+  authenticate,
+  authorizeRole("admin"),
+  async (req, res) => {
 
   try {
 
@@ -140,14 +153,19 @@ router.patch("/:id/deactivate", async (req, res) => {
 
   }
 
-});
+  }
+);
 
 
 // =====================================================
 // REACTIVATE USER
 // =====================================================
 
-router.patch("/:id/activate", async (req, res) => {
+router.patch(
+  "/:id/activate",
+  authenticate,
+  authorizeRole("admin"),
+  async (req, res) => {
 
   try {
 
@@ -225,7 +243,8 @@ router.patch("/:id/activate", async (req, res) => {
 
   }
 
-});
+  }
+);
 
 
 module.exports = router;

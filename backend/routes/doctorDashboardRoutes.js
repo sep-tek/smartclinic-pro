@@ -1,5 +1,9 @@
 const express = require("express");
 const pool = require("../db");
+const {
+  authenticate,
+  authorizeRole,
+} = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -8,11 +12,33 @@ const router = express.Router();
 // GET PATIENT DETAILS + APPOINTMENT HISTORY
 // =====================================================
 
-router.get("/patient/:patientId", async (req, res) => {
+router.get(
+  "/patient/:patientId",
+  authenticate,
+  authorizeRole("doctor"),
+  async (req, res) => {
 
   try {
 
     const { patientId } = req.params;
+
+    const appointmentAccessResult = await pool.query(
+      `SELECT 1
+       FROM appointments
+       INNER JOIN doctors
+         ON appointments.doctor_id = doctors.id
+       WHERE appointments.patient_id = $1
+       AND doctors.user_id = $2
+       LIMIT 1`,
+      [patientId, req.user.id]
+    );
+
+    if (appointmentAccessResult.rows.length === 0) {
+      return res.status(403).json({
+        message:
+          "You do not have permission to access this patient's details.",
+      });
+    }
 
 
     // -------------------------------------------------
@@ -96,15 +122,142 @@ router.get("/patient/:patientId", async (req, res) => {
 
   }
 
-});
+  }
+);
+
+// =====================================================
+// UPDATE APPOINTMENT STATUS
+// =====================================================
+
+router.patch(
+  "/appointments/:appointmentId/status",
+  authenticate,
+  authorizeRole("doctor"),
+  async (req, res) => {
+
+    try {
+
+      const { appointmentId } = req.params;
+      const { status } = req.body;
+
+
+      const allowedStatuses = [
+        "approved",
+        "rejected",
+        "cancelled",
+        "completed",
+      ];
+
+
+      if (!allowedStatuses.includes(status)) {
+
+        return res.status(400).json({
+          message:
+            "Invalid appointment status.",
+        });
+
+      }
+
+      const appointmentResult = await pool.query(
+        `SELECT
+          appointments.id,
+          doctors.user_id
+         FROM appointments
+         INNER JOIN doctors
+           ON appointments.doctor_id = doctors.id
+         WHERE appointments.id = $1`,
+        [appointmentId]
+      );
+
+      if (appointmentResult.rows.length === 0) {
+
+        return res.status(404).json({
+          message:
+            "Appointment not found.",
+        });
+
+      }
+
+      if (
+        appointmentResult.rows[0].user_id !==
+        req.user.id
+      ) {
+
+        return res.status(403).json({
+          message:
+            "You do not have permission to update this appointment.",
+        });
+
+      }
+
+
+      const result = await pool.query(
+        `UPDATE appointments
+         SET status = $1
+         WHERE id = $2
+         RETURNING *`,
+        [
+          status,
+          appointmentId,
+        ]
+      );
+
+
+      if (result.rows.length === 0) {
+
+        return res.status(404).json({
+          message:
+            "Appointment not found.",
+        });
+
+      }
+
+
+      res.json({
+        message:
+          "Appointment status updated.",
+        appointment:
+          result.rows[0],
+      });
+
+
+    } catch (error) {
+
+      console.error(
+        "Error updating appointment:",
+        error
+      );
+
+
+      res.status(500).json({
+        message:
+          "Failed to update appointment.",
+      });
+
+    }
+
+  }
+);
+
 
 // =====================================================
 // GET DOCTOR PROFILE + APPOINTMENTS
 // =====================================================
 
-router.get("/:userId", async (req, res) => {
+router.get(
+  "/:userId",
+  authenticate,
+  authorizeRole("doctor"),
+  async (req, res) => {
   try {
     const { userId } = req.params;
+
+    if (req.user.id !== Number(userId)) {
+      return res.status(403).json({
+        message:
+          "You do not have permission to access this doctor dashboard.",
+      });
+    }
 
     // Find doctor connected to this user account
     const doctorResult = await pool.query(
@@ -171,88 +324,6 @@ router.get("/:userId", async (req, res) => {
       message: "Failed to load doctor dashboard.",
     });
   }
-});
-
-
-
-
-// =====================================================
-// UPDATE APPOINTMENT STATUS
-// =====================================================
-
-router.patch(
-  "/appointments/:appointmentId/status",
-  async (req, res) => {
-
-    try {
-
-      const { appointmentId } = req.params;
-      const { status } = req.body;
-
-
-      const allowedStatuses = [
-        "approved",
-        "rejected",
-        "cancelled",
-        "completed",
-      ];
-
-
-      if (!allowedStatuses.includes(status)) {
-
-        return res.status(400).json({
-          message:
-            "Invalid appointment status.",
-        });
-
-      }
-
-
-      const result = await pool.query(
-        `UPDATE appointments
-         SET status = $1
-         WHERE id = $2
-         RETURNING *`,
-        [
-          status,
-          appointmentId,
-        ]
-      );
-
-
-      if (result.rows.length === 0) {
-
-        return res.status(404).json({
-          message:
-            "Appointment not found.",
-        });
-
-      }
-
-
-      res.json({
-        message:
-          "Appointment status updated.",
-        appointment:
-          result.rows[0],
-      });
-
-
-    } catch (error) {
-
-      console.error(
-        "Error updating appointment:",
-        error
-      );
-
-
-      res.status(500).json({
-        message:
-          "Failed to update appointment.",
-      });
-
-    }
-
   }
 );
 
@@ -261,12 +332,23 @@ router.patch(
 // UPDATE DOCTOR PROFILE
 // =====================================================
 
-router.put("/profile/:userId", async (req, res) => {
+router.put(
+  "/profile/:userId",
+  authenticate,
+  authorizeRole("doctor"),
+  async (req, res) => {
+  const { userId } = req.params;
+
+  if (req.user.id !== Number(userId)) {
+    return res.status(403).json({
+      message:
+        "You do not have permission to update this doctor profile.",
+    });
+  }
+
   const client = await pool.connect();
 
   try {
-    const { userId } = req.params;
-
     const {
       name,
       email,
@@ -392,6 +474,7 @@ router.put("/profile/:userId", async (req, res) => {
     client.release();
 
   }
-});
+  }
+);
 
 module.exports = router;
