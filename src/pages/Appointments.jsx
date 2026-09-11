@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { apiFetch } from "../api/api";
+import ErrorMessage from "../components/ErrorMessage";
 import "./Appointments.css";
 
 function Appointments() {
@@ -21,43 +22,39 @@ function Appointments() {
   const [error, setError] = useState("");
 
   // Get doctors and patient's appointments
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const doctorsResponse = await apiFetch(
-          "http://localhost:5000/api/appointments/doctors"
-        );
+  const loadData = useCallback(async () => {
+  try {
+    setLoading(true);
+    setError("");
 
-        const doctorsData = await doctorsResponse.json();
+    const doctorsResponse = await apiFetch(
+      "http://localhost:5000/api/appointments/doctors"
+    );
 
-        if (!doctorsResponse.ok) {
-          throw new Error("Failed to load doctors.");
-        }
+    setDoctors(doctorsResponse.data || []);
 
-        setDoctors(doctorsData);
+    const appointmentsResponse = await apiFetch(
+      `http://localhost:5000/api/appointments/patient/${user.id}`
+    );
 
-        const appointmentsResponse = await apiFetch(
-          `http://localhost:5000/api/appointments/patient/${user.id}`
-        );
+    setAppointments(appointmentsResponse.data || []);
+  } catch (error) {
+    console.error(error);
 
-        const appointmentsData = await appointmentsResponse.json();
+    setError(
+      error.message ||
+        "Unable to load appointment information."
+    );
+  } finally {
+    setLoading(false);
+  }
+}, [user?.id]);
 
-        if (!appointmentsResponse.ok) {
-          throw new Error("Failed to load appointments.");
-        }
-
-        setAppointments(appointmentsData);
-
-      } catch (error) {
-        console.error(error);
-        setError("Unable to load appointment information.");
-      } finally {
-        setLoading(false);
-      }
-    }
-
+useEffect(() => {
+  if (user?.id) {
     loadData();
-  }, [user.id]);
+  }
+}, [user?.id, loadData]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -94,16 +91,10 @@ function Appointments() {
         }
       );
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(
-          data.message || "Failed to book appointment."
-        );
-        return;
-      }
-
-      setMessage("Appointment booked successfully!");
+      setMessage(
+        response.data?.message ||
+          "Appointment booked successfully!"
+      );
 
       setFormData({
         doctor_id: "",
@@ -116,17 +107,14 @@ function Appointments() {
         `http://localhost:5000/api/appointments/patient/${user.id}`
       );
 
-      const appointmentsData = await appointmentsResponse.json();
-
-      setAppointments(appointmentsData);
-
+      setAppointments(appointmentsResponse.data || []);
     } catch (error) {
       console.error(error);
 
       setError(
-        "Unable to connect to the server."
+        error.message ||
+          "Unable to connect to the server."
       );
-
     } finally {
       setBooking(false);
     }
@@ -144,11 +132,8 @@ function Appointments() {
 
   return (
     <div className="appointments-page">
-
       <div className="appointments-container">
-
         <div className="appointments-header">
-
           <p className="appointments-label">
             Patient Portal
           </p>
@@ -160,16 +145,13 @@ function Appointments() {
           <p>
             Book and manage your healthcare appointments.
           </p>
-
         </div>
-
 
         <div className="appointment-layout">
 
           {/* Booking Form */}
 
           <div className="appointment-card">
-
             <h2>
               Book an Appointment
             </h2>
@@ -178,25 +160,21 @@ function Appointments() {
               Choose a doctor and select a convenient date.
             </p>
 
-
             {message && (
               <div className="appointment-message success">
                 {message}
               </div>
             )}
 
-
-            {error && (
-              <div className="appointment-message error">
-                {error}
-              </div>
-            )}
-
+          {error && (
+  <ErrorMessage
+    message={error}
+    onRetry={loadData}
+  />
+)}
 
             <form onSubmit={handleSubmit}>
-
               <div className="form-group">
-
                 <label htmlFor="doctor_id">
                   Doctor
                 </label>
@@ -208,7 +186,6 @@ function Appointments() {
                   onChange={handleChange}
                   required
                 >
-
                   <option value="">
                     Select a doctor
                   </option>
@@ -221,14 +198,10 @@ function Appointments() {
                       {doctor.name} — {doctor.specialty}
                     </option>
                   ))}
-
                 </select>
-
               </div>
 
-
               <div className="form-group">
-
                 <label htmlFor="appointment_date">
                   Date & Time
                 </label>
@@ -241,12 +214,9 @@ function Appointments() {
                   onChange={handleChange}
                   required
                 />
-
               </div>
 
-
               <div className="form-group">
-
                 <label htmlFor="notes">
                   Notes
                 </label>
@@ -259,9 +229,7 @@ function Appointments() {
                   onChange={handleChange}
                   rows="5"
                 />
-
               </div>
-
 
               <button
                 type="submit"
@@ -271,16 +239,12 @@ function Appointments() {
                   ? "Booking..."
                   : "Book Appointment"}
               </button>
-
             </form>
-
           </div>
-
 
           {/* Existing Appointments */}
 
           <div className="appointment-card">
-
             <h2>
               My Appointments
             </h2>
@@ -289,28 +253,20 @@ function Appointments() {
               Your upcoming and previous appointments.
             </p>
 
-
             {appointments.length === 0 ? (
-
               <div className="empty-appointments">
                 <p>
                   You don't have any appointments yet.
                 </p>
               </div>
-
             ) : (
-
               <div className="appointment-list">
-
                 {appointments.map((appointment) => (
-
                   <div
                     className="appointment-item"
                     key={appointment.id}
                   >
-
                     <div>
-
                       <h3>
                         {appointment.doctor_name}
                       </h3>
@@ -318,12 +274,9 @@ function Appointments() {
                       <p>
                         {appointment.specialty}
                       </p>
-
                     </div>
 
-
                     <div className="appointment-details">
-
                       <span>
                         {new Date(
                           appointment.appointment_date
@@ -335,23 +288,15 @@ function Appointments() {
                       >
                         {appointment.status}
                       </span>
-
                     </div>
-
                   </div>
-
                 ))}
-
               </div>
-
             )}
-
           </div>
 
         </div>
-
       </div>
-
     </div>
   );
 }

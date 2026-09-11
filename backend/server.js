@@ -22,7 +22,7 @@ const contactRoutes = require("./routes/contactRoutes");
 const contactMessageRoutes = require(
   "./routes/contactMessageRoutes"
 );
-
+const profileRoutes = require("./routes/profileRoutes");
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -53,6 +53,7 @@ app.use(
   "/api/admin/contact-messages",
   contactMessageRoutes
 );
+app.use("/api/profile", profileRoutes);
 
 // Test API
 app.get("/api", (req, res) => {

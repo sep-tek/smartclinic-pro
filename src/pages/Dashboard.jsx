@@ -1,46 +1,52 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import AdminDashboard from "./AdminDashboard";
 import DoctorDashboard from "./DoctorDashboard";
 import { apiFetch } from "../api/api";
+import ErrorMessage from "../components/ErrorMessage";
 import "./Dashboard.css";
 
 function Dashboard() {
   const { user } = useAuth();
 
-const [appointments, setAppointments] = useState([]);
-const [appointmentsLoading, setAppointmentsLoading] = useState(true);
+  const [appointments, setAppointments] = useState([]);
+  const [appointmentsLoading, setAppointmentsLoading] = useState(true);
+  const [appointmentsError, setAppointmentsError] = useState("");
 
-useEffect(() => {
-  if (user?.role !== "patient") {
-    return;
-  }
+  const loadAppointments = useCallback(async () => {
+    if (!user?.id || user.role !== "patient") {
+      setAppointmentsLoading(false);
+      return;
+    }
 
-  async function loadAppointments() {
     try {
+      setAppointmentsLoading(true);
+      setAppointmentsError("");
+
       const response = await apiFetch(
         `http://localhost:5000/api/appointments/patient/${user.id}`
       );
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setAppointments(data);
-      }
-
+      setAppointments(response.data || []);
     } catch (error) {
       console.error(
         "Failed to load patient appointments:",
         error
       );
+
+      setAppointmentsError(
+        error.message ||
+          "Unable to load your appointments. Please try again."
+      );
     } finally {
       setAppointmentsLoading(false);
     }
-  }
+  }, [user]);
 
-  loadAppointments();
-}, [user]);
+  useEffect(() => {
+    loadAppointments();
+  }, [loadAppointments]);
 
   if (!user) {
     return null;
@@ -51,19 +57,16 @@ useEffect(() => {
     return <AdminDashboard />;
   }
 
-  // Doctor dashboard 
+  // Doctor gets the doctor dashboard
   if (user.role === "doctor") {
-  return <DoctorDashboard />;
-}
+    return <DoctorDashboard />;
+  }
 
   // Patient dashboard
   return (
     <div className="dashboard-page">
-
       <div className="dashboard-container">
-
         <div className="dashboard-header">
-
           <div>
             <p className="dashboard-label">
               Patient Dashboard
@@ -77,12 +80,9 @@ useEffect(() => {
               Manage your healthcare appointments and information.
             </p>
           </div>
-
         </div>
 
-
         <div className="dashboard-grid">
-
           <Link
             to="/appointments"
             className="dashboard-card"
@@ -103,7 +103,6 @@ useEffect(() => {
               View appointments →
             </span>
           </Link>
-
 
           <Link
             to="/doctors"
@@ -126,7 +125,6 @@ useEffect(() => {
             </span>
           </Link>
 
-
           <Link
             to="/services"
             className="dashboard-card"
@@ -148,130 +146,108 @@ useEffect(() => {
             </span>
           </Link>
 
-
-          <div className="dashboard-card">
-
-            <div className="dashboard-icon">
-              👤
-            </div>
-
-            <h2>
-              My Profile
-            </h2>
-
-            <p>
-              Manage your personal account information.
-            </p>
-
-            <span>
-              Coming soon
-            </span>
-
-          </div>
-
-        </div>
-
-      <div className="patient-appointments-section">
-
-  <div className="patient-section-header">
-
-    <div>
-      <h2>
-        My Recent Appointments
-      </h2>
-
-      <p>
-        Keep track of your healthcare appointments.
-      </p>
-    </div>
-
-    <Link to="/appointments">
-      View All →
-    </Link>
-
+          <Link
+  to="/profile"
+  className="dashboard-card"
+>
+  <div className="dashboard-icon">
+    👤
   </div>
 
+  <h2>
+    My Profile
+  </h2>
 
-  {appointmentsLoading ? (
+  <p>
+    Manage your personal account information.
+  </p>
 
-    <p>
-      Loading appointments...
-    </p>
+  <span>
+    Manage profile →
+  </span>
+</Link>
+        </div>
 
-  ) : appointments.length === 0 ? (
-
-    <div className="patient-no-appointments">
-
-      <p>
-        You don't have any appointments yet.
-      </p>
-
-      <Link to="/appointments">
-        Book an Appointment →
-      </Link>
-
-    </div>
-
-  ) : (
-
-    <div className="patient-appointments-list">
-
-      {appointments
-        .slice(0, 3)
-        .map((appointment) => (
-
-          <div
-            className="patient-appointment-item"
-            key={appointment.id}
-          >
-
+        <div className="patient-appointments-section">
+          <div className="patient-section-header">
             <div>
-
-              <h3>
-                {appointment.doctor_name}
-              </h3>
+              <h2>
+                My Recent Appointments
+              </h2>
 
               <p>
-                {appointment.specialty}
+                Keep track of your healthcare appointments.
               </p>
-
             </div>
 
-
-            <div className="patient-appointment-meta">
-
-              <span>
-                {new Date(
-                  appointment.appointment_date
-                ).toLocaleString()}
-              </span>
-
-              <strong
-                className={`patient-status ${appointment.status}`}
-              >
-                {appointment.status}
-              </strong>
-
-            </div>
-
+            <Link to="/appointments">
+              View All →
+            </Link>
           </div>
 
-        ))}
+          {appointmentsLoading ? (
+            <p>
+              Loading appointments...
+            </p>
+          ) : appointmentsError ? (
+            <ErrorMessage
+              message={appointmentsError}
+              onRetry={loadAppointments}
+            />
+          ) : appointments.length === 0 ? (
+            <div className="patient-no-appointments">
+              <p>
+                You don't have any appointments yet.
+              </p>
 
-    </div>
+              <Link to="/appointments">
+                Book an Appointment →
+              </Link>
+            </div>
+          ) : (
+            <div className="patient-appointments-list">
+              {appointments
+                .slice(0, 3)
+                .map((appointment) => (
+                  <div
+                    className="patient-appointment-item"
+                    key={appointment.id}
+                  >
+                    <div>
+                      <h3>
+                        {appointment.doctor_name}
+                      </h3>
 
-  )}
+                      <p>
+                        {appointment.specialty}
+                      </p>
+                    </div>
 
-</div>
+                    <div className="patient-appointment-meta">
+                      <span>
+                        {new Date(
+                          appointment.appointment_date
+                        ).toLocaleString()}
+                      </span>
+
+                      <strong
+                        className={`patient-status ${appointment.status}`}
+                      >
+                        {appointment.status}
+                      </strong>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
 
         <div className="account-section">
-
           <h2>
             Account Information
           </h2>
 
           <div className="account-info">
-
             <div>
               <span>
                 Name
@@ -301,13 +277,9 @@ useEffect(() => {
                 {user.role}
               </strong>
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 }

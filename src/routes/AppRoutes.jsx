@@ -24,6 +24,7 @@ import AdminContactMessages from "../pages/AdminContactMessages";
 import Privacy from "../pages/Privacy";
 import Terms from "../pages/Terms";
 import NotFound from "../pages/NotFound";
+import Profile from "../pages/Profile";
 
 function AppRoutes() {
   return (
@@ -96,6 +97,8 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/profile" element={<Profile />} />
 
       </Route>
 

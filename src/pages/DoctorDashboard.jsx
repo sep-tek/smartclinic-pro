@@ -45,13 +45,7 @@ const patientDetailsRef = useRef(null);
         `http://localhost:5000/api/doctor-dashboard/${user.id}`
       );
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          data.message || "Failed to load dashboard."
-        );
-      }
+      const data = response.data;
 
       setDoctor(data.doctor);
       setAppointments(data.appointments);
@@ -142,14 +136,7 @@ useEffect(() => {
         }
       );
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          data.message ||
-          "Failed to update appointment."
-        );
-      }
+      const data = response.data;
 
       await loadDashboard();
 
@@ -172,13 +159,7 @@ async function viewPatient(patientId) {
       `http://localhost:5000/api/doctor-dashboard/patient/${patientId}`
     );
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        data.message || "Failed to load patient details."
-      );
-    }
+    const data = response.data;
 
     setSelectedPatient(data.patient);
     setPatientAppointments(data.appointments);
@@ -267,14 +248,7 @@ async function saveProfile(event) {
       }
     );
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        data.message ||
-        "Failed to update profile."
-      );
-    }
+    const data = response.data;
 
     setDoctor(data.doctor);
 
