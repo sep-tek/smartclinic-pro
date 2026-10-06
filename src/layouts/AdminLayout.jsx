@@ -1,5 +1,6 @@
 import { NavLink, Outlet, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import ThemeSwitcher from "../components/ThemeSwitcher";
 import "./AdminLayout.css";
 
 function AdminLayout() {
@@ -122,6 +123,8 @@ function AdminLayout() {
         {/* Bottom Actions */}
 
         <div className="admin-sidebar-bottom">
+
+          <ThemeSwitcher label="Color theme" />
 
           <Link
             to="/"

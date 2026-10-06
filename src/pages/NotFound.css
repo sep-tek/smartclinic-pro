@@ -11,8 +11,8 @@
   justify-content: center;
   padding: 60px 20px;
   box-sizing: border-box;
-  background: #0f172a;
-  color: #ffffff;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .not-found-content {
@@ -25,19 +25,19 @@
 
 .not-found-code {
   margin-bottom: 5px;
-  color: #38bdf8;
+  color: var(--accent);
   font-size: clamp(100px, 18vw, 180px);
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -8px;
-  text-shadow: 0 0 40px rgba(56, 189, 248, 0.15);
+  text-shadow: 0 0 40px var(--accent-soft);
 }
 
 /* LABEL */
 
 .not-found-label {
   margin: 25px 0 10px;
-  color: #38bdf8;
+  color: var(--accent);
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
@@ -48,7 +48,7 @@
 
 .not-found-content h1 {
   margin: 0 0 15px;
-  color: #ffffff;
+  color: var(--text);
   font-size: 32px;
   font-weight: 700;
 }
@@ -58,7 +58,7 @@
 .not-found-description {
   max-width: 550px;
   margin: 0 auto;
-  color: #94a3b8;
+  color: var(--text-faint);
   font-size: 15px;
   line-height: 1.7;
 }
@@ -83,30 +83,26 @@
 }
 
 .not-found-home-button {
-  background: linear-gradient(
-    135deg,
-    #38bdf8,
-    #6366f1
-  );
-  color: #ffffff;
-  border: 1px solid transparent;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  border: 1px solid var(--text);
 }
 
 .not-found-home-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(56, 189, 248, 0.2);
+  box-shadow: 0 8px 25px var(--accent-soft);
 }
 
 .not-found-contact-button {
   background: transparent;
-  color: #cbd5e1;
-  border: 1px solid #475569;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
 }
 
 .not-found-contact-button:hover {
-  background: #1e293b;
-  color: #ffffff;
-  border-color: #64748b;
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--text-dim);
 }
 
 /* RESPONSIVE */

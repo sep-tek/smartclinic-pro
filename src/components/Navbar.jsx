@@ -1,5 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import ThemeSwitcher from "./ThemeSwitcher";
 import "./Navbar.css";
 
 function Navbar() {
@@ -13,56 +14,81 @@ function Navbar() {
 
   return (
     <nav className="navbar">
+      <div className="navbar-inner">
 
-      <div className="logo">
-        <Link to="/">
-          SmartClinic<span>Pro</span>
-        </Link>
-      </div>
+        <div className="logo">
+          <Link to="/">
+            SmartClinic<span>Pro</span>
+          </Link>
+        </div>
 
-      <div className="nav-links">
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/services">Services</Link>
-        <Link to="/doctors">Doctors</Link>
-        <Link to="/contact">Contact</Link>
-      </div>
+        <div className="nav-links">
+          <NavLink to="/" end>Home</NavLink>
+          <NavLink to="/about">About</NavLink>
+          <NavLink to="/services">Services</NavLink>
+          <NavLink to="/doctors">Doctors</NavLink>
+          <NavLink to="/contact">Contact</NavLink>
+        </div>
 
-      <div className="nav-actions">
+        <div className="nav-actions">
+          <ThemeSwitcher label="Color theme" />
 
-        {user ? (
-          <>
-            <Link className="login-btn" to="/dashboard">
-              Dashboard
-            </Link>
+          {user ? (
+            <>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "login-btn nav-active" : "login-btn"
+                }
+                to="/dashboard"
+              >
+                Dashboard
+              </NavLink>
 
-            {user.role === "admin" && (
-              <Link className="login-btn" to="/admin/contact-messages">
-                Messages
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "login-btn nav-active" : "login-btn"
+                }
+                to="/appointments"
+              >
+                Appointments
+              </NavLink>
+
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "login-btn nav-active" : "login-btn"
+                }
+                to="/profile"
+              >
+                Profile
+              </NavLink>
+
+              <button
+                className="signup-btn"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                className="login-btn"
+                to="/login"
+              >
+                Login
               </Link>
-            )}
 
-            <button
-              className="signup-btn"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link className="login-btn" to="/login">
-              Login
-            </Link>
-
-            <Link className="signup-btn" to="/register">
-              Get Started
-            </Link>
-          </>
-        )}
+              <Link
+                className="signup-btn"
+                to="/register"
+              >
+                Get Started
+              </Link>
+            </>
+          )}
+        </div>
 
       </div>
-
     </nav>
   );
 }

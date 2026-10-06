@@ -41,7 +41,7 @@
   margin-bottom: 25px;
   border-radius: 12px;
   background: rgba(239, 68, 68, 0.12);
-  color: #dc2626;
+  color: var(--error-text);
 }
 
 
@@ -60,7 +60,7 @@
   gap: 16px;
   padding: 24px;
   border-radius: 18px;
-  border: 1px solid rgba(128, 128, 128, 0.2);
+  border: 1px solid var(--border);
   text-decoration: none;
   color: inherit;
   transition:
@@ -146,7 +146,7 @@
   gap: 20px;
   padding: 26px;
   border-radius: 18px;
-  border: 1px solid rgba(128, 128, 128, 0.2);
+  border: 1px solid var(--border);
   text-decoration: none;
   color: inherit;
   transition:
@@ -196,7 +196,7 @@
 .overview-item {
   padding: 25px;
   border-radius: 18px;
-  border: 1px solid rgba(128, 128, 128, 0.2);
+  border: 1px solid var(--border);
 }
 
 .overview-item span {

@@ -16,7 +16,7 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  border-right: 1px solid rgba(128, 128, 128, 0.2);
+  border-right: 1px solid var(--border);
   z-index: 1000;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .admin-nav-link:hover {
-  background: rgba(128, 128, 128, 0.08);
+  background: var(--surface-soft);
   transform: translateX(2px);
 }
 
@@ -120,7 +120,7 @@
 
 .admin-bottom-link:hover,
 .admin-logout-button:hover {
-  background: rgba(128, 128, 128, 0.08);
+  background: var(--surface-soft);
 }
 
 
@@ -177,4 +177,6 @@
     justify-content: center;
   }
 
-}
+}.admin-sidebar-bottom .theme-switcher { flex-wrap: wrap; justify-content: flex-start; }
+.admin-sidebar-bottom .theme-menu { right: auto; left: 0; width: 210px; }
+.admin-sidebar-bottom .theme-trigger-label { display: inline; }

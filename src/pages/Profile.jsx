@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { apiFetch } from "../api/api";
 import ErrorMessage from "../components/ErrorMessage";
+import ThemeSwitcher from "../components/ThemeSwitcher";
 import "./Profile.css";
 
 function Profile() {
@@ -294,6 +295,25 @@ function Profile() {
             ? "Active account"
             : "Inactive account"}
         </div>
+      </section>
+
+      {/* APPEARANCE */}
+
+      <section className="profile-card">
+
+        <div className="profile-card-header">
+          <div>
+            <h2>Appearance</h2>
+
+            <p>
+              Choose how SmartClinic Pro looks on your
+              device.
+            </p>
+          </div>
+        </div>
+
+        <ThemeSwitcher label="Color theme" />
+
       </section>
 
       {/* PERSONAL INFORMATION */}

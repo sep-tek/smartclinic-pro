@@ -1,8 +1,251 @@
+:root,
+[data-theme="dark"] {
+  --success-text: #4ade80;
+  --error-text: #f87171;
+  --warning-text: #facc15;
+  --bg: #080908;
+  --surface: #0e100f;
+  --surface-soft: rgba(255, 255, 255, 0.03);
+  --surface-raised: rgba(255, 255, 255, 0.06);
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.12);
+
+  --text: #f3f4f1;
+  --text-muted: #9aa39d;
+  --text-faint: #8d9691;
+  --text-dim: #6f7672;
+
+  --accent: #7fa99f;
+  --accent-soft: rgba(127, 169, 159, 0.15);
+  --accent-border: rgba(127, 169, 159, 0.5);
+
+  --primary-bg: #f3f4f1;
+  --primary-text: #101110;
+
+  --input-bg: rgba(0, 0, 0, 0.25);
+  --input-border: rgba(255, 255, 255, 0.1);
+
+  --nav-bg: #080908;
+  --overlay: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] {
+  --success-text: #15803d;
+  --error-text: #b91c1c;
+  --warning-text: #a16207;
+  --bg: #f4f6f4;
+  --surface: #ffffff;
+  --surface-soft: #ffffff;
+  --surface-raised: #eef2ef;
+
+  --border: rgba(24, 43, 37, 0.1);
+  --border-strong: rgba(24, 43, 37, 0.16);
+
+  --text: #182420;
+  --text-muted: #4d5c55;
+  --text-faint: #6c7b74;
+  --text-dim: #8a978f;
+
+  --accent: #4f7a6b;
+  --accent-soft: rgba(79, 122, 107, 0.12);
+  --accent-border: rgba(79, 122, 107, 0.45);
+
+  --primary-bg: #182420;
+  --primary-text: #f6f8f6;
+
+  --input-bg: #ffffff;
+  --input-border: rgba(24, 43, 37, 0.18);
+
+  --nav-bg: #f4f6f4;
+  --overlay: rgba(24, 36, 32, 0.4);
+}
+
+[data-theme="midnight"] {
+  --success-text: #4ade80;
+  --error-text: #f87171;
+  --warning-text: #facc15;
+  --bg: #070b14;
+  --surface: #0d1424;
+  --surface-soft: rgba(148, 163, 184, 0.05);
+  --surface-raised: rgba(148, 163, 184, 0.1);
+
+  --border: rgba(148, 163, 184, 0.14);
+  --border-strong: rgba(148, 163, 184, 0.22);
+
+  --text: #e8edf7;
+  --text-muted: #a3b0c6;
+  --text-faint: #8794a9;
+  --text-dim: #616d80;
+
+  --accent: #6ea8fe;
+  --accent-soft: rgba(110, 168, 254, 0.15);
+  --accent-border: rgba(110, 168, 254, 0.5);
+
+  --primary-bg: #e8edf7;
+  --primary-text: #0a0f1c;
+
+  --input-bg: rgba(2, 6, 16, 0.4);
+  --input-border: rgba(148, 163, 184, 0.2);
+
+  --nav-bg: #070b14;
+  --overlay: rgba(2, 6, 16, 0.55);
+}
+
+[data-theme="warm"] {
+  --success-text: #3f7a52;
+  --error-text: #b4443c;
+  --warning-text: #9a6a1f;
+  --bg: #f7f2ea;
+  --surface: #fffdf8;
+  --surface-soft: #fffdf8;
+  --surface-raised: #f1e9dc;
+
+  --border: rgba(74, 55, 32, 0.12);
+  --border-strong: rgba(74, 55, 32, 0.2);
+
+  --text: #2e241a;
+  --text-muted: #6a5a48;
+  --text-faint: #8a7a66;
+  --text-dim: #a89a86;
+
+  --accent: #a26b3f;
+  --accent-soft: rgba(162, 107, 63, 0.12);
+  --accent-border: rgba(162, 107, 63, 0.45);
+
+  --primary-bg: #2e241a;
+  --primary-text: #faf5ec;
+
+  --input-bg: #fffdf8;
+  --input-border: rgba(74, 55, 32, 0.2);
+
+  --nav-bg: #f7f2ea;
+  --overlay: rgba(46, 36, 26, 0.4);
+}
+
+[data-theme="ocean"] {
+  --success-text: #5eead4;
+  --error-text: #fca5a5;
+  --warning-text: #fde68a;
+  --bg: #062024;
+  --surface: #0b2e35;
+  --surface-soft: rgba(94, 234, 212, 0.05);
+  --surface-raised: rgba(94, 234, 212, 0.1);
+
+  --border: rgba(153, 210, 203, 0.14);
+  --border-strong: rgba(153, 210, 203, 0.22);
+
+  --text: #e2f2f0;
+  --text-muted: #9dc4bf;
+  --text-faint: #7fa6a1;
+  --text-dim: #5b7f7b;
+
+  --accent: #45c8b2;
+  --accent-soft: rgba(69, 200, 178, 0.15);
+  --accent-border: rgba(69, 200, 178, 0.5);
+
+  --primary-bg: #e2f2f0;
+  --primary-text: #062024;
+
+  --input-bg: rgba(3, 16, 19, 0.45);
+  --input-border: rgba(153, 210, 203, 0.2);
+
+  --nav-bg: #062024;
+  --overlay: rgba(3, 16, 19, 0.55);
+}
+
+[data-theme="lavender"] {
+  --success-text: #2f7a4e;
+  --error-text: #b4443c;
+  --warning-text: #9a6a1f;
+  --bg: #f5f3fa;
+  --surface: #ffffff;
+  --surface-soft: #ffffff;
+  --surface-raised: #eeeaf7;
+
+  --border: rgba(46, 32, 90, 0.1);
+  --border-strong: rgba(46, 32, 90, 0.18);
+
+  --text: #241f35;
+  --text-muted: #5c547a;
+  --text-faint: #7d7598;
+  --text-dim: #a09ab5;
+
+  --accent: #7a5fc0;
+  --accent-soft: rgba(122, 95, 192, 0.12);
+  --accent-border: rgba(122, 95, 192, 0.45);
+
+  --primary-bg: #241f35;
+  --primary-text: #f6f4fc;
+
+  --input-bg: #ffffff;
+  --input-border: rgba(46, 32, 90, 0.2);
+
+  --nav-bg: #f5f3fa;
+  --overlay: rgba(36, 31, 53, 0.4);
+}
+
+[data-theme="graphite"] {
+  --success-text: #4ade80;
+  --error-text: #f87171;
+  --warning-text: #facc15;
+  --bg: #101112;
+  --surface: #17181b;
+  --surface-soft: rgba(255, 255, 255, 0.03);
+  --surface-raised: rgba(255, 255, 255, 0.07);
+
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  --text: #eceef0;
+  --text-muted: #a7adb5;
+  --text-faint: #8b929b;
+  --text-dim: #666d76;
+
+  --accent: #8ea0b5;
+  --accent-soft: rgba(142, 160, 181, 0.16);
+  --accent-border: rgba(142, 160, 181, 0.5);
+
+  --primary-bg: #eceef0;
+  --primary-text: #101112;
+
+  --input-bg: rgba(0, 0, 0, 0.3);
+  --input-border: rgba(255, 255, 255, 0.12);
+
+  --nav-bg: #101112;
+  --overlay: rgba(0, 0, 0, 0.55);
+}
+
+[data-theme="dark"],
+[data-theme="midnight"],
+[data-theme="ocean"],
+[data-theme="graphite"] {
+  --card-shadow: 0 14px 32px rgba(0, 0, 0, 0.32);
+  --card-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="light"],
+[data-theme="warm"],
+[data-theme="lavender"] {
+  --card-shadow: 0 1px 2px rgba(20, 30, 26, 0.05),
+    0 12px 28px rgba(20, 30, 26, 0.07);
+  --card-inset: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
 :root {
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    0 10px 28px rgba(0, 0, 0, 0.06);
+  --card-inset: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
   font-family: "Inter", Arial, sans-serif;
 
-  color: #ffffff;
-  background: #0f172a;
+  color: var(--text);
+  background: var(--bg);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,6 +260,9 @@
 body {
   min-width: 320px;
   min-height: 100vh;
+
+  background: var(--bg);
+  color: var(--text);
 }
 
 a {
@@ -27,4 +273,202 @@ a {
 button {
   font-family: inherit;
   cursor: pointer;
+}
+
+/* ==================================================
+   MOTION / MICRO-INTERACTIONS
+================================================== */
+
+@keyframes sc-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sc-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Page-entry transition on every route change */
+main > *,
+.admin-main > * {
+  animation: sc-page-enter 0.45s ease both;
+}
+
+/* Staggered reveal for major cards/rows */
+.service-page-card,
+.value-card,
+.doctor-page-card,
+.dashboard-card,
+.admin-stat-card,
+.admin-quick-grid > *,
+.doctor-stat-card,
+.appointment-card,
+.appointment-item,
+.patient-appointment-item,
+.profile-card,
+.contact-item,
+.service-card {
+  animation: sc-rise 0.5s ease both;
+}
+
+.service-page-card:nth-child(2),
+.value-card:nth-child(2),
+.doctor-page-card:nth-child(2),
+.dashboard-card:nth-child(2),
+.admin-stat-card:nth-child(2),
+.doctor-stat-card:nth-child(2),
+.appointment-item:nth-child(2),
+.patient-appointment-item:nth-child(2),
+.contact-item:nth-child(2) {
+  animation-delay: 0.06s;
+}
+
+.service-page-card:nth-child(3),
+.value-card:nth-child(3),
+.doctor-page-card:nth-child(3),
+.dashboard-card:nth-child(3),
+.admin-stat-card:nth-child(3),
+.doctor-stat-card:nth-child(3),
+.appointment-item:nth-child(3),
+.contact-item:nth-child(3) {
+  animation-delay: 0.12s;
+}
+
+.service-page-card:nth-child(4),
+.doctor-page-card:nth-child(4),
+.admin-stat-card:nth-child(4),
+.doctor-stat-card:nth-child(4),
+.appointment-item:nth-child(4) {
+  animation-delay: 0.18s;
+}
+
+.service-page-card:nth-child(5),
+.doctor-page-card:nth-child(5),
+.appointment-item:nth-child(5) {
+  animation-delay: 0.24s;
+}
+
+.service-page-card:nth-child(6),
+.doctor-page-card:nth-child(6),
+.appointment-item:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+/* Press feedback on interactive controls */
+button:not(:disabled):active,
+.signup-btn:active,
+.login-btn:active,
+.theme-option:active,
+a[class*="btn"]:active {
+  transform: scale(0.97);
+}
+
+/* Consistent keyboard focus visibility */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Form fields: smooth focus emphasis */
+.form-group input,
+.form-group select,
+.form-group textarea,
+.auth-form input,
+.profile-form input {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus,
+.auth-form input:focus,
+.profile-form input:focus {
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Component depth + shape language */
+.service-page-card,
+.value-card,
+.doctor-page-card,
+.dashboard-card,
+.admin-stat-card,
+.doctor-stat-card,
+.appointment-card,
+.profile-card,
+.contact-form,
+.mission-content,
+.services-cta,
+.about-cta,
+.auth-card,
+.error-container,
+.platform-item,
+.patient-appointment-item,
+.appointment-item,
+.doctor-appointment-card {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow), var(--card-inset);
+}
+
+.service-page-card:hover,
+.value-card:hover,
+.doctor-page-card:hover,
+.dashboard-card:hover,
+.admin-stat-card:hover,
+.doctor-stat-card:hover {
+  box-shadow: var(--card-shadow), var(--card-inset);
+}
+
+.hero-primary,
+.hero-secondary,
+.final-button,
+.auth-form button,
+.form-group input,
+.form-group select,
+.form-group textarea {
+  border-radius: var(--radius-md);
+}
+
+.hero-art-image {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+}
+
+.experience-circle {
+  box-shadow: var(--card-shadow), var(--card-inset);
 }

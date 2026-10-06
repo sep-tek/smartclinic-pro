@@ -77,7 +77,7 @@
 .doctor-appointment-card {
   padding: 25px;
   border-radius: 18px;
-  border: 1px solid rgba(128, 128, 128, 0.2);
+  border: 1px solid var(--border);
 }
 
 .appointment-patient {
@@ -94,7 +94,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: rgba(128, 128, 128, 0.12);
+  background: var(--surface-raised);
   font-size: 20px;
 }
 
@@ -138,26 +138,26 @@
 }
 
 .appointment-status.pending {
-  color: #b7791f;
+  color: var(--warning-text);
 }
 
 .appointment-status.approved {
-  color: #15803d;
+  color: var(--success-text);
 }
 
 .appointment-status.rejected {
-  color: #dc2626;
+  color: var(--error-text);
 }
 
 .appointment-status.completed {
-  color: #2563eb;
+  color: var(--accent);
 }
 
 .appointment-notes {
   padding: 15px;
   border-radius: 12px;
   margin-bottom: 20px;
-  background: rgba(128, 128, 128, 0.08);
+  background: var(--surface-soft);
 }
 
 .appointment-notes p {
@@ -181,19 +181,19 @@
 
 .approve-button {
   background: rgba(34, 197, 94, 0.15);
-  color: #15803d;
+  color: var(--success-text);
 }
 
 .reject-button {
   background: rgba(239, 68, 68, 0.15);
-  color: #dc2626;
+  color: var(--error-text);
 }
 
 .doctor-empty {
   padding: 60px 20px;
   text-align: center;
   border-radius: 18px;
-  border: 1px solid rgba(128, 128, 128, 0.2);
+  border: 1px solid var(--border);
 }
 
 .doctor-empty div {
@@ -253,7 +253,7 @@
 .doctor-description {
   margin-top: 25px;
   padding-top: 25px;
-  border-top: 1px solid rgba(128, 128, 128, 0.2);
+  border-top: 1px solid var(--border);
 }
 
 .doctor-description p {
@@ -299,7 +299,7 @@
   border: none;
   border-radius: 10px;
   background: rgba(34, 197, 94, 0.15);
-  color: #15803d;
+  color: var(--success-text);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -320,7 +320,7 @@
 
 .doctor-filter {
   padding: 10px 16px;
-  border: 1px solid rgba(128, 128, 128, 0.25);
+  border: 1px solid var(--border-strong);
   border-radius: 10px;
   background: transparent;
   color: inherit;
@@ -345,7 +345,7 @@
 
 .view-patient-button {
   padding: 9px 14px;
-  border: 1px solid rgba(128, 128, 128, 0.3);
+  border: 1px solid var(--border-strong);
   border-radius: 9px;
   background: transparent;
   color: inherit;
@@ -365,7 +365,7 @@
   margin-top: 30px;
   padding: 30px;
   border-radius: 20px;
-  border: 1px solid rgba(128, 128, 128, 0.2);
+  border: 1px solid var(--border);
 }
 
 
@@ -387,7 +387,7 @@
   height: 38px;
   border: none;
   border-radius: 50%;
-  background: rgba(128, 128, 128, 0.1);
+  background: var(--surface-soft);
   color: inherit;
   font-size: 24px;
   cursor: pointer;
@@ -496,9 +496,9 @@
 ===================================================== */
 
 .edit-profile-button {
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
+  border: 1px solid var(--border-strong);
+  background: var(--border);
+  color: var(--text);
   padding: 11px 18px;
   border-radius: 10px;
   cursor: pointer;
@@ -508,8 +508,8 @@
 }
 
 .edit-profile-button:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: var(--input-border);
+  border-color: var(--border-strong);
 }
 
 
@@ -573,9 +573,9 @@
   box-sizing: border-box;
   padding: 12px 14px;
   border-radius: 9px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text);
   outline: none;
   font-size: 14px;
   font-family: inherit;
@@ -583,8 +583,8 @@
 
 .profile-form-group input:focus,
 .profile-form-group textarea:focus {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.09);
+  border-color: var(--text-dim);
+  background: var(--surface-raised);
 }
 
 .profile-form-group textarea {
@@ -594,7 +594,7 @@
 
 .profile-form-group input::placeholder,
 .profile-form-group textarea::placeholder {
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-dim);
 }
 
 
@@ -621,22 +621,22 @@
 }
 
 .cancel-profile-button {
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--border);
+  color: var(--text);
+  border: 1px solid var(--border);
 }
 
 .cancel-profile-button:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--surface-raised);
 }
 
 .save-profile-button {
-  background: #2563eb;
-  color: #ffffff;
+  background: var(--text);
+  color: var(--primary-text);
 }
 
 .save-profile-button:hover {
-  background: #1d4ed8;
+  background: var(--accent);
 }
 
 .cancel-profile-button:disabled,
@@ -706,11 +706,11 @@
 
   border-radius: 12px;
 
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border);
 
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--border);
 
-  color: #ffffff;
+  color: var(--text);
 
   cursor: pointer;
 
@@ -718,9 +718,9 @@
 }
 
 .doctor-notification-button:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--input-border);
 
-  border-color: rgba(255, 255, 255, 0.35);
+  border-color: var(--border-strong);
 }
 
 
@@ -750,7 +750,7 @@
 
   background: #ef4444;
 
-  color: #ffffff;
+  color: var(--text);
 
   font-size: 11px;
   font-weight: 700;
@@ -771,7 +771,7 @@
 
   background: #151b2b;
 
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--input-border);
 
   border-radius: 14px;
 
@@ -789,7 +789,7 @@
 .notification-panel-header {
   padding: 16px 18px;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--input-border);
 }
 
 .notification-panel-header div {
@@ -799,13 +799,13 @@
 }
 
 .notification-panel-header strong {
-  color: #ffffff;
+  color: var(--text);
 
   font-size: 15px;
 }
 
 .notification-panel-header span {
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-muted);
 
   font-size: 12px;
 }
@@ -845,14 +845,14 @@
 .notification-empty p {
   margin: 0;
 
-  color: #ffffff;
+  color: var(--text);
 
   font-size: 14px;
   font-weight: 600;
 }
 
 .notification-empty small {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
 
   font-size: 12px;
 }
@@ -880,11 +880,11 @@
 
   border: none;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border);
 
   background: transparent;
 
-  color: #ffffff;
+  color: var(--text);
 
   text-align: left;
 
@@ -894,7 +894,7 @@
 }
 
 .notification-item:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--surface-soft);
 }
 
 
@@ -930,13 +930,13 @@
 }
 
 .notification-item-content strong {
-  color: #ffffff;
+  color: var(--text);
 
   font-size: 13px;
 }
 
 .notification-item-content span {
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--text-muted);
 
   font-size: 13px;
 
@@ -948,7 +948,7 @@
 }
 
 .notification-item-content small {
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-dim);
 
   font-size: 11px;
 }
@@ -1016,11 +1016,11 @@
 
   border-radius: 10px;
 
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--border);
 
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--surface-soft);
 
-  color: #ffffff;
+  color: var(--text);
 
   font-size: 13px;
 
@@ -1030,13 +1030,13 @@
 }
 
 .doctor-appointment-search input::placeholder {
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-dim);
 }
 
 .doctor-appointment-search input:focus {
   border-color: rgba(59, 130, 246, 0.7);
 
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--input-border);
 
   box-shadow:
     0 0 0 3px rgba(59, 130, 246, 0.1);
@@ -1059,7 +1059,7 @@
 
   background: transparent;
 
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
 
   font-size: 20px;
 
@@ -1069,9 +1069,9 @@
 }
 
 .doctor-appointment-search button:hover {
-  color: #ffffff;
+  color: var(--text);
 
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--input-border);
 }
 
 
@@ -1112,11 +1112,11 @@
 
   border-radius: 10px;
 
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--border);
 
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--surface-soft);
 
-  color: #ffffff;
+  color: var(--text);
 
   font-size: 13px;
 
@@ -1135,7 +1135,7 @@
 .doctor-appointment-sort option {
   background: #111827;
 
-  color: #ffffff;
+  color: var(--text);
 }
 
 

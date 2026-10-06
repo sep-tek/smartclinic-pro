@@ -66,20 +66,20 @@
   width: 100%;
   padding: 13px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(128, 128, 128, 0.3);
-  background:  #f4e3f9;
-  color: #111827;
+  border: 1px solid var(--border-strong);
+  background: var(--input-bg);
+  color: var(--text);
   font: inherit;
   box-sizing: border-box;
 }
 
 .form-group select {
-  color: #111827;
+  color: var(--text);
 }
 
 .form-group select option {
-  background: #dde0fe;
-  color: #111827;
+  background: var(--surface);
+  color: var(--text);
 }
 
 .form-group textarea {
@@ -131,7 +131,7 @@
 .appointment-item {
   padding: 18px;
   border-radius: 14px;
-  border: 1px solid rgba(128, 128, 128, 0.2);
+  border: 1px solid var(--border);
 }
 
 .appointment-item h3 {
@@ -161,14 +161,17 @@
 
 .status.pending {
   background: rgba(234, 179, 8, 0.15);
+  color: var(--warning-text);
 }
 
 .status.approved {
   background: rgba(34, 197, 94, 0.15);
+  color: var(--success-text);
 }
 
 .status.cancelled {
   background: rgba(239, 68, 68, 0.15);
+  color: var(--error-text);
 }
 
 @media (max-width: 850px) {

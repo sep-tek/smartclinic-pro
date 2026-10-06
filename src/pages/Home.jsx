@@ -1,316 +1,497 @@
+import { Link } from "react-router-dom";
+import { useRef } from "react";
+
+import {
+  motion,
+  useScroll,
+  useTransform,
+} from "motion/react";
+
 import "./Home.css";
 
 function Home() {
+  const heroRef = useRef(null);
+  const experienceRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  // Subtle hero image parallax.
+  // The image moves slightly downward as the hero leaves the screen.
+  const heroImageY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, 80]
+  );
+
+  const {
+  scrollYProgress: experienceScrollProgress,
+} = useScroll({
+  target: experienceRef,
+  offset: ["start end", "end start"],
+});
+
+const experienceRotate = useTransform(
+  experienceScrollProgress,
+  [0, 1],
+  [-12, 12]
+);
+
+const experienceScale = useTransform(
+  experienceScrollProgress,
+  [0, 0.5, 1],
+  [0.92, 1, 0.96]
+);
+
   return (
-    <div className="home">
+    <main className="home">
 
-      <section className="hero">
+      {/* =========================
+          HERO
+      ========================= */}
 
-        <div className="hero-content">
+      <section
+        ref={heroRef}
+        className="home-hero"
+      >
+        <div className="hero-topline">
+          <span>SMARTCLINIC PRO</span>
+          <span>HEALTHCARE / 01</span>
+        </div>
 
-          <h1>
-            The Future of
-            <span> Healthcare Management</span>
-          </h1>
+        <div className="hero-main">
 
-          <p>
-            SmartClinic Pro is a modern healthcare platform
-            that connects patients, doctors, and clinics
-            in one powerful system.
+          <div className="hero-copy">
+
+            <p className="hero-label">
+              A NEW WAY TO MANAGE HEALTHCARE
+            </p>
+
+            <h1>
+              Healthcare
+              <span>simplified.</span>
+            </h1>
+
+            <p className="hero-description">
+              A connected healthcare platform bringing
+              patients, doctors, and clinics together
+              through one intelligent experience.
+            </p>
+
+            <div className="hero-actions">
+
+              <Link
+                to="/register"
+                className="hero-primary"
+              >
+                Get started
+                <span>↗</span>
+              </Link>
+
+              <Link
+                to="/about"
+                className="hero-secondary"
+              >
+                Explore
+              </Link>
+
+            </div>
+
+          </div>
+
+          <div className="hero-art">
+
+            <div className="hero-art-glow"></div>
+
+            <motion.div
+              className="hero-art-image"
+              style={{
+                y: heroImageY,
+              }}
+            >
+              <img
+                src="/images/hero-healthcare.png"
+                alt="SmartClinic Pro healthcare technology"
+              />
+            </motion.div>
+
+            <div className="hero-art-label">
+              <span>01</span>
+              <span>CONNECTED CARE</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div className="hero-bottom">
+
+          <span>
+            Scroll to explore
+          </span>
+
+          <span className="scroll-line"></span>
+
+          <span>
+            ↓
+          </span>
+
+        </div>
+
+      </section>
+
+
+      {/* =========================
+          INTRO
+      ========================= */}
+
+      <motion.section
+        className="home-intro"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{
+          once: false,
+          amount: 0.5,
+        }}
+        transition={{
+          duration: 1.5,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+      >
+
+        <div className="section-index">
+          02 / INTRODUCTION
+        </div>
+
+        <div className="intro-content">
+
+          <p className="intro-small">
+            HEALTHCARE IS COMPLEX.
+            <br />
+            THE EXPERIENCE DOESN'T HAVE TO BE.
           </p>
 
-          <div className="hero-buttons">
-
-            <button>
-              Get Started
-            </button>
-
-            <button className="secondary">
-              Learn More
-            </button>
-
-          </div>
+          <motion.h2
+            initial={{
+              opacity: 0,
+              y: 100,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: false,
+              amount: 0.5,
+            }}
+            transition={{
+              duration: 1.5,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+          >
+            We believe managing{" "}
+            <span>healthcare</span>{" "}
+            should feel{" "}
+            <em>effortless.</em>
+          </motion.h2>
+          <motion.p
+            className="intro-description"
+            initial={{
+              opacity: 0,
+              y: 60,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: false,
+              amount: 0.5,
+            }}
+            transition={{
+              duration: 1.3,
+              delay: 0.25,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+          >
+            SmartClinic Pro removes unnecessary complexity
+            from healthcare management and creates a
+            seamless connection between the people who
+            provide care and the people who need it.
+          </motion.p>
 
         </div>
 
+      </motion.section>
 
-        <div className="hero-card">
 
-          <div className="card">
+      {/* =========================
+          PLATFORM
+      ========================= */}
 
-            <h3>
-              Smart Healthcare
-            </h3>
+      <section className="platform-section">
 
-            <p>
-              Manage appointments,
-              patients and medical services easily.
-            </p>
+        <div className="section-index">
+          03 / THE PLATFORM
+        </div>
 
-          </div>
+        <div className="platform-heading">
+
+          <p>
+            ONE PLATFORM.
+          </p>
+
+          <h2>
+            Three connected
+            <span> experiences.</span>
+          </h2>
 
         </div>
+
+        <motion.div
+          className="platform-grid"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{
+            once: false,
+            amount: 0.35,
+          }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.45,
+              },
+            },
+          }}
+        >
+
+            <motion.article
+              className="platform-item"
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  x: -80,
+                },
+                visible: {
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    duration: 1.4,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                },
+              }}
+            >
+
+              <div className="platform-number">
+                01
+              </div>
+
+              <div className="platform-line"></div>
+
+              <h3>
+                Patients
+              </h3>
+
+              <p>
+                Find doctors, book appointments,
+                and manage your healthcare journey
+                from one place.
+              </p>
+
+              <span>
+                Explore patient care →
+              </span>
+
+            </motion.article>
+
+
+            <motion.article
+              className="platform-item"
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  x: -80,
+                },
+                visible: {
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    duration: 1.4,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                },
+              }}
+            >
+
+              <div className="platform-number">
+                02
+              </div>
+
+              <div className="platform-line"></div>
+
+              <h3>
+                Doctors
+              </h3>
+
+              <p>
+                Manage appointments, patients,
+                and professional information
+                through a connected workspace.
+              </p>
+
+              <span>
+                Explore doctor tools →
+              </span>
+
+            </motion.article>
+
+
+            <motion.article
+              className="platform-item"
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  x: -80,
+                },
+                visible: {
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    duration: 1.4,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                },
+              }}
+            >
+
+              <div className="platform-number">
+                03
+              </div>
+
+              <div className="platform-line"></div>
+
+              <h3>
+                Clinics
+              </h3>
+
+              <p>
+                Organize healthcare operations,
+                manage users, and keep everything
+                connected in one system.
+              </p>
+
+              <span>
+                Explore clinic management →
+              </span>
+
+            </motion.article>
+
+          </motion.div>
 
       </section>
 
 
-      {/* ADD THE FEATURES SECTION HERE */}
+      {/* =========================
+          EXPERIENCE
+      ========================= */}
 
-      <section className="features">
+      <section
+  ref={experienceRef}
+  className="experience-section"
+>
+
+        <div className="section-index">
+          04 / THE EXPERIENCE
+        </div>
+
+        <div className="experience-content">
+
+          <div className="experience-heading">
+
+            <p>
+              DESIGNED AROUND PEOPLE
+            </p>
+
+            <h2>
+              Better technology.
+              <br />
+              <span>Better care.</span>
+            </h2>
+
+          </div>
+
+          <div className="experience-text">
+
+            <p>
+              From booking an appointment to managing
+              an entire clinic, every part of SmartClinic Pro
+              is designed to reduce friction and create a
+              clearer healthcare experience.
+            </p>
+
+            <Link to="/services">
+              Discover our services
+              <span>↗</span>
+            </Link>
+
+          </div>
+
+        </div>
+
+        <motion.div
+  className="experience-visual"
+  initial={{ opacity: 0, y: 48 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: false, amount: 0.4 }}
+  transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+  style={{
+    rotate: experienceRotate,
+    scale: experienceScale,
+  }}
+>
+
+          <div className="experience-circle">
+            <span>SC</span>
+          </div>
+
+          <div className="experience-orbit"></div>
+
+          <div className="experience-orbit orbit-two"></div>
+
+        </motion.div>
+
+      </section>
+
+
+      {/* =========================
+          CTA
+      ========================= */}
+
+      <section className="home-final">
+
+        <p>
+          READY WHEN YOU ARE
+        </p>
 
         <h2>
-          Why Choose SmartClinic Pro?
+          Let's make healthcare
+          <span> better.</span>
         </h2>
 
-        <div className="feature-container">
-
-          <div className="feature-card">
-            <h3>Easy Booking</h3>
-            <p>
-              Patients can schedule appointments
-              quickly and manage their visits.
-            </p>
-          </div>
-
-
-          <div className="feature-card">
-            <h3>Smart Management</h3>
-            <p>
-              Clinics can organize patients,
-              doctors and appointments easily.
-            </p>
-          </div>
-
-
-          <div className="feature-card">
-            <h3>Better Healthcare</h3>
-            <p>
-              Connect patients with trusted
-              healthcare professionals.
-            </p>
-          </div>
-
-        </div>
+        <Link
+          to="/register"
+          className="final-button"
+        >
+          Get started
+          <span>↗</span>
+        </Link>
 
       </section>
 
-      <section className="services-preview">
-
-  <h2>
-    Our Healthcare Services
-  </h2>
-
-
-  <div className="service-container">
-
-    <div className="service-card">
-      <h3>
-        General Consultation
-      </h3>
-
-      <p>
-        Connect with experienced doctors
-        for professional medical advice.
-      </p>
-    </div>
-
-
-    <div className="service-card">
-      <h3>
-        Emergency Care
-      </h3>
-
-      <p>
-        Quick access to urgent healthcare
-        support when needed.
-      </p>
-    </div>
-
-
-    <div className="service-card">
-      <h3>
-        Medical Checkups
-      </h3>
-
-      <p>
-        Track your health with regular
-        medical examinations.
-      </p>
-    </div>
-
-
-    <div className="service-card">
-      <h3>
-        Online Appointments
-      </h3>
-
-      <p>
-        Book appointments easily from
-        anywhere.
-      </p>
-    </div>
-
-
-  </div>
-
-</section>
-
-<section className="doctors-preview">
-
-  <h2>
-    Meet Our Specialists
-  </h2>
-
-  <p className="section-description">
-    Connect with experienced healthcare professionals
-    across different medical specialties.
-  </p>
-
-  <div className="doctor-container">
-
-    <div className="doctor-card">
-      <div className="doctor-avatar">
-        DR
-      </div>
-
-      <h3>Dr. Sarah Johnson</h3>
-
-      <p className="doctor-specialty">
-        Cardiologist
-      </p>
-
-      <p>
-        Specializes in cardiovascular health
-        and preventive care.
-      </p>
-
-      <button>
-        View Profile
-      </button>
-    </div>
-
-
-    <div className="doctor-card">
-      <div className="doctor-avatar">
-        DR
-      </div>
-
-      <h3>Dr. Michael Carter</h3>
-
-      <p className="doctor-specialty">
-        Neurologist
-      </p>
-
-      <p>
-        Focused on neurological diagnosis,
-        treatment and patient care.
-      </p>
-
-      <button>
-        View Profile
-      </button>
-    </div>
-
-
-    <div className="doctor-card">
-      <div className="doctor-avatar">
-        DR
-      </div>
-
-      <h3>Dr. Emily Wilson</h3>
-
-      <p className="doctor-specialty">
-        Pediatrician
-      </p>
-
-      <p>
-        Provides compassionate healthcare
-        for children and families.
-      </p>
-
-      <button>
-        View Profile
-      </button>
-    </div>
-
-  </div>
-
-</section>
-
-
-<section className="testimonials">
-
-  <h2>
-    What Our Patients Say
-  </h2>
-
-  <p className="section-description">
-    See how SmartClinic Pro makes healthcare
-    simpler and more accessible.
-  </p>
-
-  <div className="testimonial-container">
-
-    <div className="testimonial-card">
-      <p>
-        "Booking an appointment used to take so much
-        time. SmartClinic Pro made the whole process
-        incredibly simple."
-      </p>
-
-      <h3>James Anderson</h3>
-      <span>Patient</span>
-    </div>
-
-
-    <div className="testimonial-card">
-      <p>
-        "The platform is easy to use and I can manage
-        all my appointments from one place."
-      </p>
-
-      <h3>Maria Thompson</h3>
-      <span>Patient</span>
-    </div>
-
-
-    <div className="testimonial-card">
-      <p>
-        "A clean and modern healthcare platform.
-        Finding the right doctor has never been easier."
-      </p>
-
-      <h3>Daniel Williams</h3>
-      <span>Patient</span>
-    </div>
-
-  </div>
-
-</section>
-
-<section className="cta">
-
-  <div className="cta-content">
-
-    <h2>
-      Ready to take control of your healthcare?
-    </h2>
-
-    <p>
-      Join SmartClinic Pro and experience
-      a smarter way to manage your healthcare.
-    </p>
-
-    <button>
-      Get Started
-    </button>
-
-  </div>
-
-</section>
-
-
-    </div>
+    </main>
   );
 }
 

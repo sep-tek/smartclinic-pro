@@ -25,7 +25,7 @@
   height: 32px;
   border-radius: 50%;
   background: #ef4444;
-  color: #ffffff;
+  color: var(--text);
   font-size: 18px;
   font-weight: 700;
 }
@@ -36,7 +36,7 @@
 
 .error-message-content h3 {
   margin: 0 0 6px;
-  color: #fca5a5;
+  color: var(--error-text);
   font-size: 17px;
   font-weight: 700;
 }
@@ -54,7 +54,7 @@
   border: 1px solid #ef4444;
   border-radius: 6px;
   background: transparent;
-  color: #fca5a5;
+  color: var(--error-text);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -63,7 +63,7 @@
 
 .error-message-retry:hover {
   background: #ef4444;
-  color: #ffffff;
+  color: var(--text);
 }
 
 @media (max-width: 600px) {

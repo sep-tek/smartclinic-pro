@@ -1,96 +1,333 @@
+/* ==================================================
+   SMARTCLINIC PRO
+   IMMERSIVE FOOTER
+================================================== */
+
 .footer {
-  margin-top: 80px;
-  padding: 70px 8% 25px;
+  width: 100%;
 
-  background: #080f1f;
+  background: var(--bg);
+  color: var(--text);
 
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border);
 }
 
-.footer-container {
+/* ==================================================
+   TOP
+================================================== */
+
+.footer-top {
+  width: min(1440px, 92%);
+
+  margin: 0 auto;
+  padding: 90px 0 110px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.footer-index {
+  margin-bottom: 75px;
+
+  color: var(--text-dim);
+
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+}
+
+.footer-main {
   display: grid;
 
-  grid-template-columns:
-    2fr 1fr 1fr 1.5fr;
+  grid-template-columns: 0.8fr 1.2fr;
 
-  gap: 50px;
+  gap: 100px;
+}
 
-  max-width: 1400px;
-  margin: 0 auto;
+/* ==================================================
+   BRAND
+================================================== */
+
+.footer-brand {
+  max-width: 420px;
 }
 
 .footer-logo {
-  font-size: 24px;
-  font-weight: 700;
+  display: inline-block;
+
+  color: var(--text);
+
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -1px;
+
+  transition: color 0.25s ease;
 }
 
 .footer-logo span {
-  color: #38bdf8;
+  color: var(--accent);
+}
+
+.footer-logo:hover {
+  color: var(--text);
 }
 
 .footer-brand p {
-  max-width: 300px;
+  max-width: 330px;
 
-  margin-top: 18px;
+  margin: 28px 0 0;
 
-  color: #94a3b8;
+  color: var(--text-dim);
 
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+/* ==================================================
+   NAVIGATION
+================================================== */
+
+.footer-navigation {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 50px;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-column-label {
+  margin-bottom: 24px;
+
+  color: var(--text-dim);
+
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+}
+
+.footer-column a {
+  margin-bottom: 14px;
+
+  color: var(--text-muted);
+
+  font-size: 12px;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.footer-column a:hover {
+  color: var(--text);
+  transform: translateX(3px);
+}
+
+.footer-column p {
+  margin: 0 0 10px;
+
+  color: var(--text-dim);
+
+  font-size: 11px;
   line-height: 1.6;
 }
 
-.footer h3 {
-  margin-bottom: 20px;
-  font-size: 17px;
+/* ==================================================
+   LARGE STATEMENT
+================================================== */
+
+.footer-statement {
+  width: min(1440px, 92%);
+
+  margin: 0 auto;
+
+  padding: 120px 0 130px;
+
+  border-bottom: 1px solid var(--border);
 }
 
-.footer-links {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.footer-statement p {
+  margin: 0 0 25px;
+
+  color: var(--text-dim);
+
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
 }
 
-.footer-links a {
-  color: #94a3b8;
-  transition: 0.3s;
+.footer-statement h2 {
+  max-width: 1050px;
+
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: clamp(55px, 8vw, 115px);
+
+  line-height: 0.9;
+
+  letter-spacing: -6px;
+
+  font-weight: 500;
 }
 
-.footer-links a:hover {
-  color: #38bdf8;
+.footer-statement h2 span {
+  color: var(--accent);
 }
 
-.footer-contact {
-  color: #94a3b8;
-}
-
-.footer-contact p {
-  margin-bottom: 12px;
-}
+/* ==================================================
+   BOTTOM
+================================================== */
 
 .footer-bottom {
-  max-width: 1400px;
+  width: min(1440px, 92%);
 
-  margin: 60px auto 0;
-  padding-top: 25px;
+  min-height: 90px;
 
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 0 auto;
 
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+
+  grid-template-columns:
+    1fr auto 1fr;
+
   align-items: center;
 
-  color: #64748b;
-  font-size: 14px;
+  gap: 30px;
 }
 
-.footer-bottom div {
+.footer-bottom p,
+.footer-location,
+.footer-legal a {
+  color: var(--text-dim);
+
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: 1.2px;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+.footer-legal {
   display: flex;
-  gap: 20px;
+  gap: 25px;
 }
 
-.footer-bottom a {
-  transition: 0.3s;
+.footer-legal a {
+  transition: color 0.25s ease;
 }
 
-.footer-bottom a:hover {
-  color: #38bdf8;
+.footer-legal a:hover {
+  color: var(--text-muted);
+}
+
+.footer-location {
+  justify-self: end;
+}
+
+/* ==================================================
+   TABLET
+================================================== */
+
+@media (max-width: 1000px) {
+
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: 70px;
+  }
+
+  .footer-navigation {
+    gap: 35px;
+  }
+
+  .footer-bottom {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-location {
+    justify-self: end;
+  }
+}
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 700px) {
+
+  .footer-top {
+    padding: 70px 0 80px;
+  }
+
+  .footer-index {
+    margin-bottom: 55px;
+  }
+
+  .footer-navigation {
+    grid-template-columns: 1fr 1fr;
+    gap: 50px 30px;
+  }
+
+  .footer-column:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .footer-statement {
+    padding: 90px 0 100px;
+  }
+
+  .footer-statement h2 {
+    letter-spacing: -4px;
+  }
+
+  .footer-bottom {
+    padding: 25px 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 18px;
+  }
+
+  .footer-location {
+    justify-self: auto;
+  }
+}
+
+/* ==================================================
+   SMALL MOBILE
+================================================== */
+
+@media (max-width: 480px) {
+
+  .footer-navigation {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-column:last-child {
+    grid-column: auto;
+  }
+
+  .footer-logo {
+    font-size: 26px;
+  }
+
+  .footer-statement h2 {
+    font-size: 48px;
+  }
+
+  .footer-legal {
+    flex-direction: column;
+    gap: 10px;
+  }
 }

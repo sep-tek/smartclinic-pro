@@ -7,8 +7,8 @@
 .privacy-page {
   min-height: 100vh;
   padding: 60px 20px;
-  background: #0f172a;
-  color: #cbd5e1;
+  background: var(--bg);
+  color: var(--text-muted);
 }
 
 .privacy-container {
@@ -26,7 +26,7 @@
 
 .privacy-header p {
   margin: 0 0 10px;
-  color: #38bdf8;
+  color: var(--accent);
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
@@ -35,7 +35,7 @@
 
 .privacy-header h1 {
   margin: 0 0 15px;
-  color: #ffffff;
+  color: var(--text);
   font-size: 42px;
   font-weight: 700;
 }
@@ -44,7 +44,7 @@
   display: block;
   max-width: 700px;
   margin: 0 auto;
-  color: #94a3b8;
+  color: var(--text-faint);
   font-size: 15px;
   line-height: 1.7;
 }
@@ -53,10 +53,10 @@
 
 .privacy-content {
   padding: 40px;
-  background: #1e293b;
-  border: 1px solid rgba(148, 163, 184, 0.15);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 15px 40px var(--input-bg);
 }
 
 .privacy-content section {
@@ -69,14 +69,14 @@
 
 .privacy-content h2 {
   margin: 0 0 12px;
-  color: #ffffff;
+  color: var(--text);
   font-size: 19px;
   font-weight: 650;
 }
 
 .privacy-content p {
   margin: 0;
-  color: #94a3b8;
+  color: var(--text-faint);
   font-size: 14px;
   line-height: 1.8;
 }
@@ -89,7 +89,7 @@
 }
 
 .privacy-footer span {
-  color: #64748b;
+  color: var(--text-dim);
   font-size: 12px;
 }
 
