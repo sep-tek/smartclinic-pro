@@ -5,6 +5,8 @@ import {
   useEffect,
 } from "react";
 
+import { apiFetch } from "../api/api";
+
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -32,7 +34,15 @@ export function AuthProvider({ children }) {
     setUser(user);
   }
 
-  function logout() {
+  async function logout() {
+    try {
+      await apiFetch("http://localhost:5000/api/auth/logout", {
+        method: "POST",
+      });
+    } catch {
+      // Best effort: still clear local auth state.
+    }
+
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 

@@ -183,3 +183,24 @@
     padding: 100px 5% 60px;
   }
 }
+.cancel-appointment-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.cancel-appointment-btn:hover {
+  color: var(--error-text, #f87171);
+  border-color: var(--error-text, #f87171);
+}
+
+.cancel-appointment-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

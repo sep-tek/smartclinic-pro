@@ -213,6 +213,14 @@ router.post("/login", async (req, res) => {
     // RESPONSE
     // =================================================
 
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
+    });
+
     res.json({
 
       message:
@@ -245,6 +253,18 @@ router.post("/login", async (req, res) => {
 
   }
 
+});
+
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+  });
+
+  res.json({ message: "Logged out successfully." });
 });
 
 

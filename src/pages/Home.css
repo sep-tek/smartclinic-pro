@@ -502,7 +502,7 @@
   line-height: 1.8;
 }
 
-.platform-item > span {
+.platform-item > span,\n.platform-item > a > span {
   margin-top: auto;
 
   color: #9ca39f;
@@ -514,7 +514,7 @@
   transition: color 0.3s ease;
 }
 
-.platform-item:hover > span {
+.platform-item:hover > span,\n.platform-item:hover > a > span {
   color: #9bc5ba;
 }
 

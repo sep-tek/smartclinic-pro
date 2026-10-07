@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { apiFetch } from "../api/api";
 import ErrorMessage from "../components/ErrorMessage";
 import "./Doctors.css";
@@ -92,9 +93,12 @@ function Doctors() {
                   {doctor.description}
                 </p>
 
-                <button type="button">
+                <Link
+                  className="doctor-profile-link"
+                  to={`/doctors/${doctor.id}`}
+                >
                   View Profile
-                </button>
+                </Link>
               </div>
             ))}
           </div>

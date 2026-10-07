@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { apiFetch } from "../api/api";
 import "./Register.css";
 
 function Register() {
@@ -44,7 +45,7 @@ function Register() {
     try {
       setLoading(true);
 
-      const response = await fetch(
+      const response = await apiFetch(
         "http://localhost:5000/api/auth/register",
         {
           method: "POST",
@@ -61,7 +62,7 @@ function Register() {
         }
       );
 
-      const data = await response.json();
+      const data = response.data;
 
       if (!response.ok) {
         setError(data.message || "Registration failed.");
@@ -85,7 +86,8 @@ function Register() {
       console.error("Registration error:", error);
 
       setError(
-        "Unable to connect to the server. Please try again."
+        error.message ||
+          "Unable to connect to the server. Please try again."
       );
 
     } finally {

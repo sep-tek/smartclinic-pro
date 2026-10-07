@@ -102,7 +102,7 @@
   margin-bottom: 25px;
 }
 
-.service-page-card button {
+.service-page-card button, .service-learn-more {
   padding: 10px 20px;
 
   border: 1px solid var(--text);
@@ -115,7 +115,7 @@
   transition: 0.3s;
 }
 
-.service-page-card button:hover {
+.service-page-card button:hover, .service-learn-more:hover {
   background: var(--primary-bg);
   color: var(--primary-text);
 }
@@ -156,7 +156,7 @@
   margin-bottom: 30px;
 }
 
-.services-cta button {
+.services-cta button, .services-cta-link {
   padding: 14px 30px;
 
   border: none;
@@ -216,4 +216,4 @@
     font-size: 30px;
   }
 
-}
+}.service-learn-more, .services-cta-link { display: inline-block; }

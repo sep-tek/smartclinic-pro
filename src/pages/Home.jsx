@@ -301,9 +301,9 @@ const experienceScale = useTransform(
                 from one place.
               </p>
 
-              <span>
-                Explore patient care →
-              </span>
+              <Link to="/services">
+                <span>Explore patient care →</span>
+              </Link>
 
             </motion.article>
 
@@ -342,9 +342,9 @@ const experienceScale = useTransform(
                 through a connected workspace.
               </p>
 
-              <span>
-                Explore doctor tools →
-              </span>
+              <Link to="/doctors">
+                <span>Explore doctor tools →</span>
+              </Link>
 
             </motion.article>
 
@@ -383,9 +383,9 @@ const experienceScale = useTransform(
                 connected in one system.
               </p>
 
-              <span>
-                Explore clinic management →
-              </span>
+              <Link to="/about">
+                <span>Explore clinic management →</span>
+              </Link>
 
             </motion.article>
 

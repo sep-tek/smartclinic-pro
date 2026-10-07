@@ -1,39 +1,8 @@
+import { Link } from "react-router-dom";
+import { SERVICES } from "../data/services";
 import "./Services.css";
 
 function Services() {
-  const services = [
-    {
-      title: "General Consultation",
-      description:
-        "Connect with qualified healthcare professionals for general medical advice and consultation.",
-    },
-    {
-      title: "Emergency Care",
-      description:
-        "Get quick access to emergency healthcare services when you need immediate medical attention.",
-    },
-    {
-      title: "Medical Checkups",
-      description:
-        "Keep track of your health with regular medical examinations and preventive care.",
-    },
-    {
-      title: "Online Appointments",
-      description:
-        "Schedule appointments with doctors from anywhere without having to wait in line.",
-    },
-    {
-      title: "Laboratory Services",
-      description:
-        "Access essential laboratory testing and receive your results through a connected system.",
-    },
-    {
-      title: "Specialist Consultation",
-      description:
-        "Find and connect with specialists across different areas of healthcare.",
-    },
-  ];
-
   return (
     <div className="services-page">
 
@@ -61,10 +30,10 @@ function Services() {
 
         <div className="services-grid">
 
-          {services.map((service) => (
+          {SERVICES.map((service) => (
             <div
               className="service-page-card"
-              key={service.title}
+              key={service.slug}
             >
 
               <div className="service-icon">
@@ -79,9 +48,12 @@ function Services() {
                 {service.description}
               </p>
 
-              <button>
+              <Link
+                className="service-learn-more"
+                to={`/services/${service.slug}`}
+              >
                 Learn More
-              </button>
+              </Link>
 
             </div>
           ))}
@@ -102,9 +74,12 @@ function Services() {
           healthcare service that's right for you.
         </p>
 
-        <button>
+        <Link
+          className="services-cta-link"
+          to="/contact"
+        >
           Contact Us
-        </button>
+        </Link>
 
       </section>
 

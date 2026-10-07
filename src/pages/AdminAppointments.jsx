@@ -17,7 +17,7 @@ function AdminAppointments() {
         "http://localhost:5000/api/admin/appointments"
       );
 
-      const data = await response.json();
+      const data = response.data;
 
       if (!response.ok) {
         throw new Error(

@@ -21,6 +21,10 @@ function Appointments() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  const [cancellingId, setCancellingId] = useState(null);
+  const [cancelMessage, setCancelMessage] = useState("");
+  const [cancelError, setCancelError] = useState("");
+
   // Get doctors and patient's appointments
   const loadData = useCallback(async () => {
   try {
@@ -63,10 +67,18 @@ useEffect(() => {
       ...previous,
       [name]: value,
     }));
+
+    // Starting/editing a new booking clears the old result messages
+    setMessage("");
+    setError("");
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    if (booking) {
+      return;
+    }
 
     setMessage("");
     setError("");
@@ -117,6 +129,44 @@ useEffect(() => {
       );
     } finally {
       setBooking(false);
+    }
+  }
+
+  async function handleCancel(appointmentId) {
+    if (cancellingId !== null) {
+      return;
+    }
+
+    setCancelMessage("");
+    setCancelError("");
+    setCancellingId(appointmentId);
+
+    try {
+      const response = await apiFetch(
+        `http://localhost:5000/api/appointments/${appointmentId}/cancel`,
+        { method: "PATCH" }
+      );
+
+      setAppointments((previous) =>
+        previous.map((appointment) =>
+          appointment.id === appointmentId
+            ? { ...appointment, status: "cancelled" }
+            : appointment
+        )
+      );
+
+      setCancelMessage(
+        response.data?.message ||
+          "Appointment cancelled successfully."
+      );
+    } catch (error) {
+      console.error(error);
+
+      setCancelError(
+        error.message || "Unable to cancel the appointment."
+      );
+    } finally {
+      setCancellingId(null);
     }
   }
 
@@ -253,6 +303,18 @@ useEffect(() => {
               Your upcoming and previous appointments.
             </p>
 
+            {cancelMessage && (
+              <div className="appointment-message success">
+                {cancelMessage}
+              </div>
+            )}
+
+            {cancelError && (
+              <div className="appointment-message error">
+                {cancelError}
+              </div>
+            )}
+
             {appointments.length === 0 ? (
               <div className="empty-appointments">
                 <p>
@@ -288,6 +350,22 @@ useEffect(() => {
                       >
                         {appointment.status}
                       </span>
+
+                      {(appointment.status === "pending" ||
+                        appointment.status === "approved") && (
+                        <button
+                          type="button"
+                          className="cancel-appointment-btn"
+                          disabled={cancellingId !== null}
+                          onClick={() =>
+                            handleCancel(appointment.id)
+                          }
+                        >
+                          {cancellingId === appointment.id
+                            ? "Cancelling..."
+                            : "Cancel"}
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}

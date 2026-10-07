@@ -6,7 +6,9 @@ import AdminLayout from "../layouts/AdminLayout";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import Services from "../pages/Services";
+import ServiceDetails from "../pages/ServiceDetails";
 import Doctors from "../pages/Doctors";
+import DoctorDetails from "../pages/DoctorDetails";
 import Contact from "../pages/Contact";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -52,8 +54,18 @@ function AppRoutes() {
         />
 
         <Route
+          path="/services/:serviceSlug"
+          element={<ServiceDetails />}
+        />
+
+        <Route
           path="/doctors"
           element={<Doctors />}
+        />
+
+        <Route
+          path="/doctors/:doctorId"
+          element={<DoctorDetails />}
         />
 
         <Route

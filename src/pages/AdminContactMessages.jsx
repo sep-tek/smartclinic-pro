@@ -26,7 +26,7 @@ function AdminContactMessages() {
         "http://localhost:5000/api/admin/contact-messages"
       );
 
-      const data = await response.json();
+      const data = response.data;
 
       if (!response.ok) {
         throw new Error(
@@ -76,7 +76,7 @@ function AdminContactMessages() {
         }
       );
 
-      const data = await response.json();
+      const data = response.data;
 
       if (!response.ok) {
         throw new Error(

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiFetch } from "../api/api";
 import "./Contact.css";
 
 function Contact() {
@@ -31,7 +32,7 @@ function Contact() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/contact", {
+      const response = await apiFetch("http://localhost:5000/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +40,7 @@ function Contact() {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      const data = response.data;
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to send message.");

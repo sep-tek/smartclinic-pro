@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { apiFetch } from "../api/api";
 import "./Login.css";
 
 function Login() {
@@ -31,7 +32,7 @@ function Login() {
     try {
       setLoading(true);
 
-      const response = await fetch(
+      const response = await apiFetch(
         "http://localhost:5000/api/auth/login",
         {
           method: "POST",
@@ -44,7 +45,7 @@ function Login() {
         }
       );
 
-      const data = await response.json();
+      const data = response.data;
 
       if (!response.ok) {
         setError(data.message || "Login failed.");
@@ -64,7 +65,8 @@ function Login() {
       console.error("Login error:", error);
 
       setError(
-        "Unable to connect to the server. Please try again."
+        error.message ||
+          "Unable to connect to the server. Please try again."
       );
 
     } finally {

@@ -37,7 +37,7 @@ function AdminDoctors() {
         "http://localhost:5000/api/doctors"
       );
 
-      const data = await response.json();
+      const data = response.data;
 
       if (!response.ok) {
         throw new Error(
@@ -210,8 +210,7 @@ function AdminDoctors() {
       );
 
 
-      const data =
-        await response.json();
+      const data = response.data;
 
 
       if (!response.ok) {
@@ -286,7 +285,7 @@ function AdminDoctors() {
     );
 
 
-    const data = await response.json();
+    const data = response.data;
 
 
     if (!response.ok) {

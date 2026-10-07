@@ -2,25 +2,33 @@ const jwt = require("jsonwebtoken");
 const pool = require("../db");
 
 async function authenticate(req, res, next) {
+  let token = null;
+
   const authorizationHeader = req.headers.authorization;
 
-  if (!authorizationHeader) {
-    return res.status(401).json({
-      message: "Authorization header is required.",
-    });
+  if (authorizationHeader) {
+    const [scheme, bearerToken, ...extraParts] = authorizationHeader
+      .trim()
+      .split(/\s+/);
+
+    if (
+      scheme !== "Bearer" ||
+      !bearerToken ||
+      extraParts.length > 0
+    ) {
+      return res.status(401).json({
+        message: "Authorization header must use Bearer token format.",
+      });
+    }
+
+    token = bearerToken;
+  } else if (req.cookies && req.cookies.token) {
+    token = req.cookies.token;
   }
 
-  const [scheme, token, ...extraParts] = authorizationHeader
-    .trim()
-    .split(/\s+/);
-
-  if (
-    scheme !== "Bearer" ||
-    !token ||
-    extraParts.length > 0
-  ) {
+  if (!token) {
     return res.status(401).json({
-      message: "Authorization header must use Bearer token format.",
+      message: "Authentication token is required.",
     });
   }
 

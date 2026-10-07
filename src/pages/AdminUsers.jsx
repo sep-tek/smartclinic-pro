@@ -27,7 +27,7 @@ function AdminUsers() {
         "http://localhost:5000/api/users"
       );
 
-      const data = await response.json();
+      const data = response.data;
 
       if (!response.ok) {
         throw new Error(
@@ -98,7 +98,7 @@ function AdminUsers() {
       );
 
 
-      const data = await response.json();
+      const data = response.data;
 
 
       if (!response.ok) {
