@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { apiFetch } from "../api/api";
 import "./AdminContactMessages.css";
 
@@ -12,6 +12,18 @@ function AdminContactMessages() {
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+
+  const detailsRef = useRef(null);
+
+  // Bring the opened message into view when the admin clicks "View"
+  useEffect(() => {
+    if (selectedMessage && detailsRef.current) {
+      detailsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [selectedMessage]);
 
   // =====================================================
   // LOAD CONTACT MESSAGES
@@ -344,7 +356,11 @@ function AdminContactMessages() {
         {/* MESSAGE DETAILS */}
 
         {selectedMessage && (
-          <div className="contact-message-details">
+          <div
+            className="contact-message-details"
+            ref={detailsRef}
+            tabIndex={-1}
+          >
 
             <div className="contact-details-header">
 

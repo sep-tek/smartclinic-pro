@@ -44,23 +44,38 @@ function Navbar() {
                 Dashboard
               </NavLink>
 
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "login-btn nav-active" : "login-btn"
-                }
-                to="/appointments"
-              >
-                Appointments
-              </NavLink>
+              {user.role === "admin" && (
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "login-btn nav-active" : "login-btn"
+                  }
+                  to="/admin/dashboard"
+                >
+                  Admin
+                </NavLink>
+              )}
 
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "login-btn nav-active" : "login-btn"
-                }
-                to="/profile"
-              >
-                Profile
-              </NavLink>
+              {user.role === "patient" && (
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "login-btn nav-active" : "login-btn"
+                  }
+                  to="/appointments"
+                >
+                  Appointments
+                </NavLink>
+              )}
+
+              {(user.role === "patient" || user.role === "doctor") && (
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? "login-btn nav-active" : "login-btn"
+                  }
+                  to="/profile"
+                >
+                  Profile
+                </NavLink>
+              )}
 
               <button
                 className="signup-btn"

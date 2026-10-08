@@ -180,3 +180,4 @@
 }.admin-sidebar-bottom .theme-switcher { flex-wrap: wrap; justify-content: flex-start; }
 .admin-sidebar-bottom .theme-menu { right: auto; left: 0; width: 210px; }
 .admin-sidebar-bottom .theme-trigger-label { display: inline; }
+.admin-sidebar-bottom .theme-menu { top: auto; bottom: calc(100% + 10px); }

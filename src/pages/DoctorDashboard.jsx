@@ -18,6 +18,9 @@ const [selectedPatient, setSelectedPatient] = useState(null);
 const [patientAppointments, setPatientAppointments] = useState([]);
 const [patientLoading, setPatientLoading] = useState(false);
 const [patientError, setPatientError] = useState("");
+const [statusUpdatingId, setStatusUpdatingId] = useState(null);
+const [statusSuccess, setStatusSuccess] = useState("");
+const [statusError, setStatusError] = useState("");
 const [editingProfile, setEditingProfile] = useState(false);
 const [profileSaving, setProfileSaving] = useState(false);
 const [profileError, setProfileError] = useState("");
@@ -120,7 +123,15 @@ useEffect(() => {
     appointmentId,
     status
   ) {
+    if (statusUpdatingId !== null) {
+      return;
+    }
+
     try {
+      setStatusSuccess("");
+      setStatusError("");
+      setStatusUpdatingId(appointmentId);
+
       const response = await apiFetch(
         `http://localhost:5000/api/doctor-dashboard/appointments/${appointmentId}/status`,
         {
@@ -138,15 +149,27 @@ useEffect(() => {
 
       const data = response.data;
 
-      await loadDashboard();
+      setAppointments((previous) =>
+        previous.map((appointment) =>
+          appointment.id === appointmentId
+            ? { ...appointment, status: data.appointment?.status || status }
+            : appointment
+        )
+      );
+
+      setStatusSuccess(
+        data.message || "Appointment status updated."
+      );
 
     } catch (error) {
       console.error(error);
 
-      setError(
+      setStatusError(
         error.message ||
         "Unable to update appointment."
       );
+    } finally {
+      setStatusUpdatingId(null);
     }
   }
 
@@ -227,6 +250,50 @@ async function saveProfile(event) {
     setProfileSaving(true);
     setProfileError("");
     setProfileSuccess("");
+
+    if (!profileForm.name.trim()) {
+      setProfileError("Name is required.");
+      setProfileSaving(false);
+      return;
+    }
+
+    if (!profileForm.email.trim()) {
+      setProfileError("Email is required.");
+      setProfileSaving(false);
+      return;
+    }
+
+    if (!profileForm.specialty.trim()) {
+      setProfileError("Specialty is required.");
+      setProfileSaving(false);
+      return;
+    }
+
+    const experienceYears = Number(
+      profileForm.experience_years
+    );
+
+    if (
+      profileForm.experience_years !== "" &&
+      (Number.isNaN(experienceYears) || experienceYears < 0)
+    ) {
+      setProfileError(
+        "Experience must be a valid non-negative number."
+      );
+      setProfileSaving(false);
+      return;
+    }
+
+    if (
+      profileForm.description &&
+      profileForm.description.length > 5000
+    ) {
+      setProfileError(
+        "Description must be 5000 characters or fewer."
+      );
+      setProfileSaving(false);
+      return;
+    }
 
     const response = await apiFetch(
       `http://localhost:5000/api/doctor-dashboard/profile/${user.id}`,
@@ -639,6 +706,19 @@ const filteredAppointments =
         )}
 
 
+        {statusSuccess && (
+          <div className="doctor-success">
+            {statusSuccess}
+          </div>
+        )}
+
+        {statusError && (
+          <div className="doctor-error">
+            {statusError}
+          </div>
+        )}
+
+
         {/* Appointments */}
 
         <div className="doctor-section">
@@ -901,6 +981,7 @@ const filteredAppointments =
 
     <button
       className="approve-button"
+      disabled={statusUpdatingId !== null}
       onClick={() =>
         updateAppointmentStatus(
           appointment.id,
@@ -908,11 +989,14 @@ const filteredAppointments =
         )
       }
     >
-      ✓ Approve
+      {statusUpdatingId === appointment.id
+        ? "Updating..."
+        : "✓ Approve"}
     </button>
 
     <button
       className="reject-button"
+      disabled={statusUpdatingId !== null}
       onClick={() =>
         updateAppointmentStatus(
           appointment.id,
@@ -920,7 +1004,9 @@ const filteredAppointments =
         )
       }
     >
-      ✕ Reject
+      {statusUpdatingId === appointment.id
+        ? "Updating..."
+        : "✕ Reject"}
     </button>
 
   </div>
@@ -932,6 +1018,7 @@ const filteredAppointments =
 
     <button
       className="complete-button"
+      disabled={statusUpdatingId !== null}
       onClick={() =>
         updateAppointmentStatus(
           appointment.id,
@@ -939,7 +1026,9 @@ const filteredAppointments =
         )
       }
     >
-      ✓ Mark as Completed
+      {statusUpdatingId === appointment.id
+        ? "Updating..."
+        : "✓ Mark as Completed"}
     </button>
 
   </div>

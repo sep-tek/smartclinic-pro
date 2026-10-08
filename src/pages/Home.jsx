@@ -7,6 +7,8 @@ import {
   useTransform,
 } from "motion/react";
 
+import EnergyCoreVisual from "../components/EnergyCoreVisual";
+
 import "./Home.css";
 
 function Home() {
@@ -453,13 +455,7 @@ const experienceScale = useTransform(
   }}
 >
 
-          <div className="experience-circle">
-            <span>SC</span>
-          </div>
-
-          <div className="experience-orbit"></div>
-
-          <div className="experience-orbit orbit-two"></div>
+          <EnergyCoreVisual />
 
         </motion.div>
 

@@ -161,6 +161,7 @@ router.patch(
       const appointmentResult = await pool.query(
         `SELECT
           appointments.id,
+          appointments.status,
           doctors.user_id
          FROM appointments
          INNER JOIN doctors
@@ -186,6 +187,26 @@ router.patch(
         return res.status(403).json({
           message:
             "You do not have permission to update this appointment.",
+        });
+
+      }
+
+
+      const allowedTransitions = {
+        pending: ["approved", "rejected"],
+        approved: ["completed"],
+      };
+
+      const currentStatus =
+        appointmentResult.rows[0].status;
+
+      const permittedNext =
+        allowedTransitions[currentStatus] || [];
+
+      if (!permittedNext.includes(status)) {
+
+        return res.status(400).json({
+          message: `Cannot change an appointment from "${currentStatus}" to "${status}".`,
         });
 
       }
@@ -361,6 +382,28 @@ router.put(
     if (!name || !email || !specialty) {
       return res.status(400).json({
         message: "Name, email, and specialty are required.",
+      });
+    }
+
+    const experienceYears = Number(experience_years);
+
+    if (
+      experience_years !== undefined &&
+      experience_years !== null &&
+      experience_years !== "" &&
+      (Number.isNaN(experienceYears) || experienceYears < 0)
+    ) {
+      return res.status(400).json({
+        message: "Experience must be a valid non-negative number.",
+      });
+    }
+
+    if (
+      typeof description === "string" &&
+      description.length > 5000
+    ) {
+      return res.status(400).json({
+        message: "Description must be 5000 characters or fewer.",
       });
     }
 

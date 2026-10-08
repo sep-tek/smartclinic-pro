@@ -45,7 +45,7 @@
   --text: #182420;
   --text-muted: #4d5c55;
   --text-faint: #6c7b74;
-  --text-dim: #8a978f;
+  --text-dim: #5d6e67;
 
   --accent: #4f7a6b;
   --accent-soft: rgba(79, 122, 107, 0.12);
@@ -107,7 +107,7 @@
   --text: #2e241a;
   --text-muted: #6a5a48;
   --text-faint: #8a7a66;
-  --text-dim: #a89a86;
+  --text-dim: #7a6a55;
 
   --accent: #a26b3f;
   --accent-soft: rgba(162, 107, 63, 0.12);
@@ -138,7 +138,7 @@
   --text: #e2f2f0;
   --text-muted: #9dc4bf;
   --text-faint: #7fa6a1;
-  --text-dim: #5b7f7b;
+  --text-dim: #7fa8a3;
 
   --accent: #45c8b2;
   --accent-soft: rgba(69, 200, 178, 0.15);
@@ -169,7 +169,7 @@
   --text: #241f35;
   --text-muted: #5c547a;
   --text-faint: #7d7598;
-  --text-dim: #a09ab5;
+  --text-dim: #6f6890;
 
   --accent: #7a5fc0;
   --accent-soft: rgba(122, 95, 192, 0.12);
@@ -312,7 +312,7 @@ body {
 /* Page-entry transition on every route change */
 main > *,
 .admin-main > * {
-  animation: sc-page-enter 0.45s ease both;
+  animation: sc-page-enter 0.45s ease backwards;
 }
 
 /* Staggered reveal for major cards/rows */
@@ -329,7 +329,7 @@ main > *,
 .profile-card,
 .contact-item,
 .service-card {
-  animation: sc-rise 0.5s ease both;
+  animation: sc-rise 0.5s ease backwards;
 }
 
 .service-page-card:nth-child(2),
@@ -414,6 +414,7 @@ a[class*="btn"]:active {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    animation-fill-mode: backwards !important;
   }
 
   html {
