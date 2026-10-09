@@ -24,8 +24,7 @@ router.get(
 
     const doctorsResult = await pool.query(
       `SELECT COUNT(*) AS count
-       FROM users
-       WHERE role = 'doctor'`
+       FROM doctors`
     );
 
     const appointmentsResult = await pool.query(
