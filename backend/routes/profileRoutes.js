@@ -5,6 +5,7 @@ const pool = require("../db");
 const {
   authenticate,
 } = require("../middleware/authMiddleware");
+const { isValidEmail } = require("../utils/validate");
 
 const router = express.Router();
 
@@ -54,10 +55,27 @@ router.put("/", authenticate, async (req, res) => {
   try {
     const { name, email } = req.body;
 
+    const trimmedName =
+      typeof name === "string" ? name.trim() : "";
+    const trimmedEmail =
+      typeof email === "string" ? email.trim() : "";
+
     // Validate input
-    if (!name || !email) {
+    if (!trimmedName || !trimmedEmail) {
       return res.status(400).json({
         message: "Name and email are required.",
+      });
+    }
+
+    if (trimmedName.length > 100) {
+      return res.status(400).json({
+        message: "Name must be 100 characters or fewer.",
+      });
+    }
+
+    if (!isValidEmail(trimmedEmail)) {
+      return res.status(400).json({
+        message: "Please provide a valid email address.",
       });
     }
 
@@ -67,7 +85,7 @@ router.put("/", authenticate, async (req, res) => {
        FROM users
        WHERE email = $1
        AND id != $2`,
-      [email, req.user.id]
+      [trimmedEmail, req.user.id]
     );
 
     if (existingUser.rows.length > 0) {
@@ -90,7 +108,7 @@ router.put("/", authenticate, async (req, res) => {
          role,
          created_at,
          is_active`,
-      [name, email, req.user.id]
+      [trimmedName, trimmedEmail, req.user.id]
     );
 
     if (result.rows.length === 0) {
@@ -136,10 +154,10 @@ router.put(
       }
 
       // Basic password length check
-      if (newPassword.length < 6) {
+      if (newPassword.length < 8) {
         return res.status(400).json({
           message:
-            "New password must be at least 6 characters long.",
+            "New password must be at least 8 characters long.",
         });
       }
 

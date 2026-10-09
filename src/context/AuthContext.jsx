@@ -7,6 +7,7 @@ import {
 
 import { apiFetch } from "../api/api";
 
+import { API_BASE_URL } from "../api/api";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -36,7 +37,7 @@ export function AuthProvider({ children }) {
 
   async function logout() {
     try {
-      await apiFetch("http://localhost:5000/api/auth/logout", {
+      await apiFetch(`${API_BASE_URL}/api/auth/logout`, {
         method: "POST",
       });
     } catch {

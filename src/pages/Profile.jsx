@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { API_BASE_URL } from "../api/api";
 import { apiFetch } from "../api/api";
 import ErrorMessage from "../components/ErrorMessage";
 import ThemeSwitcher from "../components/ThemeSwitcher";
@@ -37,7 +38,7 @@ function Profile() {
       setError("");
 
       const response = await apiFetch(
-        "http://localhost:5000/api/profile"
+        `${API_BASE_URL}/api/profile`
       );
 
       const user = response.data?.user;
@@ -84,7 +85,7 @@ function Profile() {
       setSaving(true);
 
       const response = await apiFetch(
-        "http://localhost:5000/api/profile",
+        `${API_BASE_URL}/api/profile`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -153,7 +154,7 @@ function Profile() {
       setPasswordLoading(true);
 
       const response = await apiFetch(
-        "http://localhost:5000/api/profile/password",
+        `${API_BASE_URL}/api/profile/password`,
         {
           method: "PUT",
           body: JSON.stringify({

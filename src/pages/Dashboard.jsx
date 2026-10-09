@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../api/api";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import AdminDashboard from "./AdminDashboard";
@@ -25,7 +26,7 @@ function Dashboard() {
       setAppointmentsError("");
 
       const response = await apiFetch(
-        `http://localhost:5000/api/appointments/patient/${user.id}`
+        `${API_BASE_URL}/api/appointments/patient/${user.id}`
       );
 
       setAppointments(response.data || []);

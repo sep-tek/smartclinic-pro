@@ -4,6 +4,7 @@ const {
   authenticate,
   authorizeRole,
 } = require("../middleware/authMiddleware");
+const { isValidEmail } = require("../utils/validate");
 
 const router = express.Router();
 
@@ -379,9 +380,34 @@ router.put(
     } = req.body;
 
     // Validate required fields
-    if (!name || !email || !specialty) {
+    const trimmedName =
+      typeof name === "string" ? name.trim() : "";
+    const trimmedEmail =
+      typeof email === "string" ? email.trim() : "";
+    const trimmedSpecialty =
+      typeof specialty === "string" ? specialty.trim() : "";
+
+    if (!trimmedName || !trimmedEmail || !trimmedSpecialty) {
       return res.status(400).json({
         message: "Name, email, and specialty are required.",
+      });
+    }
+
+    if (trimmedName.length > 100) {
+      return res.status(400).json({
+        message: "Name must be 100 characters or fewer.",
+      });
+    }
+
+    if (!isValidEmail(trimmedEmail)) {
+      return res.status(400).json({
+        message: "Please provide a valid email address.",
+      });
+    }
+
+    if (trimmedSpecialty.length > 100) {
+      return res.status(400).json({
+        message: "Specialty must be 100 characters or fewer.",
       });
     }
 
@@ -391,7 +417,7 @@ router.put(
       experience_years !== undefined &&
       experience_years !== null &&
       experience_years !== "" &&
-      (Number.isNaN(experienceYears) || experienceYears < 0)
+      (!Number.isFinite(experienceYears) || experienceYears < 0)
     ) {
       return res.status(400).json({
         message: "Experience must be a valid non-negative number.",
@@ -433,7 +459,7 @@ router.put(
        FROM users
        WHERE email = $1
        AND id != $2`,
-      [email, userId]
+      [trimmedEmail, userId]
     );
 
     if (emailCheck.rows.length > 0) {
@@ -451,8 +477,8 @@ router.put(
            email = $2
        WHERE id = $3`,
       [
-        name,
-        email,
+        trimmedName,
+        trimmedEmail,
         userId,
       ]
     );
@@ -467,8 +493,8 @@ router.put(
        WHERE id = $5
        RETURNING *`,
       [
-        name,
-        specialty,
+        trimmedName,
+        trimmedSpecialty,
         Number(experience_years) || 0,
         description || null,
         doctorId,

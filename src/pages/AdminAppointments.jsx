@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../api/api";
 import { apiFetch } from "../api/api";
 import "./AdminAppointments.css";
 
@@ -14,7 +15,7 @@ function AdminAppointments() {
       setError("");
 
       const response = await apiFetch(
-        "http://localhost:5000/api/admin/appointments"
+        `${API_BASE_URL}/api/admin/appointments`
       );
 
       const data = response.data;

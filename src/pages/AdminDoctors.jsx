@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../api/api";
 import { apiFetch } from "../api/api";
 import "./AdminDoctors.css";
 
@@ -34,7 +35,7 @@ function AdminDoctors() {
       setError("");
 
       const response = await apiFetch(
-        "http://localhost:5000/api/doctors"
+        `${API_BASE_URL}/api/doctors`
       );
 
       const data = response.data;
@@ -167,8 +168,8 @@ function AdminDoctors() {
 
 
       const url = isEditing
-        ? `http://localhost:5000/api/doctors/${editingDoctor.id}`
-        : "http://localhost:5000/api/doctors";
+        ? `${API_BASE_URL}/api/doctors/${editingDoctor.id}`
+        : `${API_BASE_URL}/api/doctors`;
 
 
       const method =
@@ -278,7 +279,7 @@ function AdminDoctors() {
   try {
 
     const response = await apiFetch(
-      `http://localhost:5000/api/doctors/${doctor.id}`,
+      `${API_BASE_URL}/api/doctors/${doctor.id}`,
       {
         method: "DELETE",
       }

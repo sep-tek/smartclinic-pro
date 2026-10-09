@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../api/api";
 import { apiFetch } from "../api/api";
 import "./Contact.css";
 
@@ -32,7 +33,7 @@ function Contact() {
     setIsSubmitting(true);
 
     try {
-      const response = await apiFetch("http://localhost:5000/api/contact", {
+      const response = await apiFetch(`${API_BASE_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -4,6 +4,7 @@ const {
   authenticate,
   authorizeRole,
 } = require("../middleware/authMiddleware");
+const { isPositiveIntegerId } = require("../utils/validate");
 
 const router = express.Router();
 
@@ -54,6 +55,12 @@ router.delete(
   async (req, res) => {
     try {
       const { id } = req.params;
+
+      if (!isPositiveIntegerId(id)) {
+        return res.status(400).json({
+          message: "Please provide a valid message ID.",
+        });
+      }
 
       const result = await pool.query(
         `DELETE FROM contact_messages

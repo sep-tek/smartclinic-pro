@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { API_BASE_URL } from "../api/api";
 import { apiFetch } from "../api/api";
 import "./AdminContactMessages.css";
 
@@ -35,7 +36,7 @@ function AdminContactMessages() {
       setError("");
 
       const response = await apiFetch(
-        "http://localhost:5000/api/admin/contact-messages"
+        `${API_BASE_URL}/api/admin/contact-messages`
       );
 
       const data = response.data;
@@ -82,7 +83,7 @@ function AdminContactMessages() {
       setMessage("");
 
       const response = await apiFetch(
-        `http://localhost:5000/api/admin/contact-messages/${messageItem.id}`,
+        `${API_BASE_URL}/api/admin/contact-messages/${messageItem.id}`,
         {
           method: "DELETE",
         }

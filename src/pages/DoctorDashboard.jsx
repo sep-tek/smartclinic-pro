@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { API_BASE_URL } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import { apiFetch } from "../api/api";
 import "./DoctorDashboard.css";
@@ -45,7 +46,7 @@ const patientDetailsRef = useRef(null);
       setError("");
 
       const response = await apiFetch(
-        `http://localhost:5000/api/doctor-dashboard/${user.id}`
+        `${API_BASE_URL}/api/doctor-dashboard/${user.id}`
       );
 
       const data = response.data;
@@ -133,7 +134,7 @@ useEffect(() => {
       setStatusUpdatingId(appointmentId);
 
       const response = await apiFetch(
-        `http://localhost:5000/api/doctor-dashboard/appointments/${appointmentId}/status`,
+        `${API_BASE_URL}/api/doctor-dashboard/appointments/${appointmentId}/status`,
         {
           method: "PATCH",
 
@@ -179,7 +180,7 @@ async function viewPatient(patientId) {
     setPatientError("");
 
     const response = await apiFetch(
-      `http://localhost:5000/api/doctor-dashboard/patient/${patientId}`
+      `${API_BASE_URL}/api/doctor-dashboard/patient/${patientId}`
     );
 
     const data = response.data;
@@ -296,7 +297,7 @@ async function saveProfile(event) {
     }
 
     const response = await apiFetch(
-      `http://localhost:5000/api/doctor-dashboard/profile/${user.id}`,
+      `${API_BASE_URL}/api/doctor-dashboard/profile/${user.id}`,
       {
         method: "PUT",
 

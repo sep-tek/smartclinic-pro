@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../api/api";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { apiFetch } from "../api/api";
@@ -23,7 +24,7 @@ function AdminDashboard() {
       setError("");
 
       const response = await apiFetch(
-        "http://localhost:5000/api/admin/dashboard/stats"
+        `${API_BASE_URL}/api/admin/dashboard/stats`
       );
 
       const data = response.data;

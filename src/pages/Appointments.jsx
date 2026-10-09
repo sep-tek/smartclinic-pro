@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { API_BASE_URL } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import { apiFetch } from "../api/api";
 import ErrorMessage from "../components/ErrorMessage";
@@ -32,13 +33,13 @@ function Appointments() {
     setError("");
 
     const doctorsResponse = await apiFetch(
-      "http://localhost:5000/api/appointments/doctors"
+      `${API_BASE_URL}/api/appointments/doctors`
     );
 
     setDoctors(doctorsResponse.data || []);
 
     const appointmentsResponse = await apiFetch(
-      `http://localhost:5000/api/appointments/patient/${user.id}`
+      `${API_BASE_URL}/api/appointments/patient/${user.id}`
     );
 
     setAppointments(appointmentsResponse.data || []);
@@ -86,7 +87,7 @@ useEffect(() => {
 
     try {
       const response = await apiFetch(
-        "http://localhost:5000/api/appointments",
+        `${API_BASE_URL}/api/appointments`,
         {
           method: "POST",
 
@@ -116,7 +117,7 @@ useEffect(() => {
 
       // Reload appointments
       const appointmentsResponse = await apiFetch(
-        `http://localhost:5000/api/appointments/patient/${user.id}`
+        `${API_BASE_URL}/api/appointments/patient/${user.id}`
       );
 
       setAppointments(appointmentsResponse.data || []);
@@ -143,7 +144,7 @@ useEffect(() => {
 
     try {
       const response = await apiFetch(
-        `http://localhost:5000/api/appointments/${appointmentId}/cancel`,
+        `${API_BASE_URL}/api/appointments/${appointmentId}/cancel`,
         { method: "PATCH" }
       );
 

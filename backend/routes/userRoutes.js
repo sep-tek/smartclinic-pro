@@ -4,6 +4,7 @@ const {
   authenticate,
   authorizeRole,
 } = require("../middleware/authMiddleware");
+const { isPositiveIntegerId } = require("../utils/validate");
 
 const router = express.Router();
 
@@ -62,6 +63,10 @@ router.patch(
   try {
 
     const { id } = req.params;
+
+    if (!isPositiveIntegerId(id)) {
+      return res.status(400).json({ message: "Please provide a valid user ID." });
+    }
 
 
     // Check that the user exists
@@ -170,6 +175,10 @@ router.patch(
   try {
 
     const { id } = req.params;
+
+    if (!isPositiveIntegerId(id)) {
+      return res.status(400).json({ message: "Please provide a valid user ID." });
+    }
 
 
     const userResult = await pool.query(

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { API_BASE_URL } from "../api/api";
 import { Link, useParams } from "react-router-dom";
 import { apiFetch } from "../api/api";
 import ErrorMessage from "../components/ErrorMessage";
@@ -17,7 +18,7 @@ function DoctorDetails() {
       setError("");
 
       const response = await apiFetch(
-        "http://localhost:5000/api/appointments/doctors"
+        `${API_BASE_URL}/api/appointments/doctors`
       );
 
       const doctors = response.data || [];

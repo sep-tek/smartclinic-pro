@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../api/api";
 import { apiFetch } from "../api/api";
 import "./AdminUsers.css";
 
@@ -24,7 +25,7 @@ function AdminUsers() {
       setError("");
 
       const response = await apiFetch(
-        "http://localhost:5000/api/users"
+        `${API_BASE_URL}/api/users`
       );
 
       const data = response.data;
@@ -91,7 +92,7 @@ function AdminUsers() {
 
 
       const response = await apiFetch(
-        `http://localhost:5000/api/users/${user.id}/${action}`,
+        `${API_BASE_URL}/api/users/${user.id}/${action}`,
         {
           method: "PATCH",
         }

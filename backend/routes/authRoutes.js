@@ -2,6 +2,10 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const pool = require("../db");
+const {
+  isNonEmptyString,
+  isValidEmail,
+} = require("../utils/validate");
 
 const router = express.Router();
 
@@ -23,11 +27,48 @@ router.post("/register", async (req, res) => {
 
     // Validate input
 
-    if (!name || !email || !password) {
+    const trimmedName =
+      typeof name === "string" ? name.trim() : "";
+    const trimmedEmail =
+      typeof email === "string" ? email.trim() : "";
+
+    if (!trimmedName) {
+
+      return res.status(400).json({
+        message: "Name is required.",
+      });
+
+    }
+
+    if (trimmedName.length > 100) {
+
+      return res.status(400).json({
+        message: "Name must be 100 characters or fewer.",
+      });
+
+    }
+
+    if (!trimmedEmail) {
+
+      return res.status(400).json({
+        message: "Email is required.",
+      });
+
+    }
+
+    if (!isValidEmail(trimmedEmail)) {
+
+      return res.status(400).json({
+        message: "Please provide a valid email address.",
+      });
+
+    }
+
+    if (typeof password !== "string" || password.length < 8) {
 
       return res.status(400).json({
         message:
-          "Name, email, and password are required.",
+          "Password must be at least 8 characters long.",
       });
 
     }
@@ -37,7 +78,7 @@ router.post("/register", async (req, res) => {
 
     const existingUser = await pool.query(
       "SELECT id FROM users WHERE email = $1",
-      [email]
+      [trimmedEmail]
     );
 
 
@@ -73,8 +114,8 @@ router.post("/register", async (req, res) => {
         created_at,
         is_active`,
       [
-        name,
-        email,
+        trimmedName,
+        trimmedEmail,
         hashedPassword
       ]
     );
@@ -123,11 +164,22 @@ router.post("/login", async (req, res) => {
 
     // Validate input
 
-    if (!email || !password) {
+    const trimmedEmail =
+      typeof email === "string" ? email.trim() : "";
+
+    if (!trimmedEmail || typeof password !== "string" || !password) {
 
       return res.status(400).json({
         message:
           "Email and password are required.",
+      });
+
+    }
+
+    if (!isValidEmail(trimmedEmail)) {
+
+      return res.status(400).json({
+        message: "Please provide a valid email address.",
       });
 
     }
@@ -137,7 +189,7 @@ router.post("/login", async (req, res) => {
 
     const result = await pool.query(
       "SELECT * FROM users WHERE email = $1",
-      [email]
+      [trimmedEmail]
     );
 
 

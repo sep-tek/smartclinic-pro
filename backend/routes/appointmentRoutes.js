@@ -4,6 +4,10 @@ const {
   authenticate,
   authorizeRole,
 } = require("../middleware/authMiddleware");
+const {
+  isPositiveIntegerId,
+  isValidISODate,
+} = require("../utils/validate");
 
 const router = express.Router();
 
@@ -52,6 +56,30 @@ router.post(
       return res.status(400).json({
         message:
           "Patient, doctor, and appointment date are required.",
+      });
+    }
+
+    if (!isPositiveIntegerId(doctor_id)) {
+      return res.status(400).json({
+        message: "Please provide a valid doctor ID.",
+      });
+    }
+
+    if (!isValidISODate(appointment_date)) {
+      return res.status(400).json({
+        message:
+          "Please provide a valid appointment date and time.",
+      });
+    }
+
+    if (
+      notes !== undefined &&
+      notes !== null &&
+      typeof notes === "string" &&
+      notes.length > 2000
+    ) {
+      return res.status(400).json({
+        message: "Notes must be 2000 characters or fewer.",
       });
     }
 
