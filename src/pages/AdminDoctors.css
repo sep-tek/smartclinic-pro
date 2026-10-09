@@ -47,6 +47,9 @@
   font: inherit;
   font-weight: 600;
   white-space: nowrap;
+
+  background: var(--primary-bg);
+  color: var(--primary-text);
 }
 
 
@@ -108,6 +111,7 @@
   border-radius: 50%;
   cursor: pointer;
   background: var(--surface-soft);
+  color: var(--text);
   font-size: 24px;
 }
 
@@ -176,10 +180,18 @@
   cursor: pointer;
   font: inherit;
   font-weight: 600;
+
+  transition: background-color 0.2s ease;
 }
 
 .cancel-button {
   background: var(--surface-soft);
+  color: var(--text);
+}
+
+.save-doctor-button {
+  background: var(--primary-bg);
+  color: var(--primary-text);
 }
 
 .save-doctor-button:disabled {
@@ -275,17 +287,33 @@
   font: inherit;
   font-size: 13px;
   font-weight: 600;
+
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .edit-doctor-button {
   border: 1px solid var(--border-strong);
   background: transparent;
+
+  /* Without an explicit color the browser falls back to its own
+     button text color (near-black), which is unreadable on dark
+     themes. Always use the theme text token. */
+  color: var(--text);
+}
+
+.edit-doctor-button:hover {
+  background: var(--surface-raised);
+  border-color: var(--accent-border);
 }
 
 .delete-doctor-button {
   border: 1px solid rgba(239, 68, 68, 0.3);
   background: rgba(239, 68, 68, 0.08);
   color: var(--error-text);
+}
+
+.delete-doctor-button:hover {
+  background: rgba(239, 68, 68, 0.2);
 }
 
 
