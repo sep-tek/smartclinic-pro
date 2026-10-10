@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { API_BASE_URL } from "../api/api";
 import { apiFetch } from "../api/api";
 import "./AdminUsers.css";
@@ -13,6 +13,42 @@ function AdminUsers() {
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+
+  // Scroll target for filtered results
+  const resultsRef = useRef(null);
+
+  /* Bumped only by a deliberate click on a filter button, so the
+     effect below can tell "the user asked to see results" apart
+     from "the page is rendering". That keeps the initial load
+     from scrolling, while a click on an already-selected filter
+     (Total Users included) still scrolls, because the value
+     changes even though `selectedRole` does not. */
+
+  const [scrollRequest, setScrollRequest] = useState(0);
+
+  // Bring the filtered results into view after a filter is clicked
+  /* Runs after the click has been committed, so the newly
+     filtered rows are already rendered. `loading` is a dependency
+     so a click that lands mid-request scrolls once the rows
+     arrive rather than being dropped. */
+
+  useEffect(() => {
+    if (scrollRequest === 0 || loading) {
+      return;
+    }
+
+    if (resultsRef.current) {
+      resultsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [scrollRequest, loading]);
+
+  function handleFilterSelect(role) {
+    setSelectedRole(role);
+    setScrollRequest((previous) => previous + 1);
+  }
 
 
   // =====================================================
@@ -276,7 +312,7 @@ function AdminUsers() {
                 : "user-stat"
             }
             onClick={() =>
-              setSelectedRole("all")
+              handleFilterSelect("all")
             }
           >
 
@@ -304,7 +340,7 @@ function AdminUsers() {
                 : "user-stat"
             }
             onClick={() =>
-              setSelectedRole("patient")
+              handleFilterSelect("patient")
             }
           >
 
@@ -313,7 +349,7 @@ function AdminUsers() {
             </span>
 
             <small>
-              Click to view patients →
+              Click to view patient accounts →
             </small>
 
             <strong>
@@ -332,7 +368,7 @@ function AdminUsers() {
                 : "user-stat"
             }
             onClick={() =>
-              setSelectedRole("doctor")
+              handleFilterSelect("doctor")
             }
           >
 
@@ -341,7 +377,7 @@ function AdminUsers() {
             </span>
 
             <small>
-              Click to view doctors →
+              Click to view doctor accounts →
             </small>
 
             <strong>
@@ -360,7 +396,7 @@ function AdminUsers() {
                 : "user-stat"
             }
             onClick={() =>
-              setSelectedRole("admin")
+              handleFilterSelect("admin")
             }
           >
 
@@ -396,10 +432,19 @@ function AdminUsers() {
 
         </div>
 
+        <p className="users-count-note">
+          These counts are user accounts that can sign in. Doctor
+          and patient profiles are managed on the Doctors and
+          Appointments pages.
+        </p>
+
 
         {/* USER LIST */}
 
-        <div className="users-section">
+        <div
+          className="users-section"
+          ref={resultsRef}
+        >
 
           <div className="users-section-header">
 

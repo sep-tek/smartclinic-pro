@@ -132,52 +132,242 @@
   margin-left: 250px;
 }
 
+.admin-main-content {
+  min-width: 0;
+}
+
+
+/* Theme switcher inside the desktop sidebar (opens upward) */
+
+.admin-sidebar-bottom .theme-switcher {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.admin-sidebar-bottom .theme-trigger-label {
+  display: inline;
+}
+
+.admin-sidebar-bottom .theme-menu {
+  top: auto;
+  bottom: calc(100% + 10px);
+  right: auto;
+  left: 0;
+  width: 210px;
+}
+
+
+/* Mobile-only controls (hidden on desktop) */
+
+.admin-mobile-bar,
+.admin-sidebar-close,
+.admin-sidebar-backdrop {
+  display: none;
+}
+
 
 /* Responsive */
 
 @media (max-width: 800px) {
 
-  .admin-sidebar {
-    position: relative;
-    width: 100%;
-    height: auto;
-    padding: 18px;
+  /* Mobile top bar with the menu button */
+
+  .admin-mobile-bar {
+    position: sticky;
+    top: 0;
+    z-index: 900;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 16px;
+
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
   }
+
+  .admin-sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+    padding: 0;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    background: var(--surface);
+    color: var(--text);
+
+    font-size: 18px;
+    line-height: 1;
+
+    cursor: pointer;
+  }
+
+  .admin-sidebar-toggle:focus-visible,
+  .admin-sidebar-close:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .admin-mobile-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* Sidebar becomes an off-canvas drawer */
+
+  .admin-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: min(280px, 84vw);
+    height: 100dvh;
+    padding: 22px 18px;
+
+    overflow-y: auto;
+
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    visibility: hidden;
+
+    z-index: 1100;
+  }
+
+  .admin-sidebar-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .admin-sidebar-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Placed by the header grid, not by absolute offsets */
+
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: start;
+
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    flex-shrink: 0;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    background: var(--surface);
+    color: var(--text);
+
+    font-size: 15px;
+    line-height: 1;
+
+    cursor: pointer;
+  }
+
+  .admin-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    z-index: 1050;
+    cursor: pointer;
+  }
+
+  /* Inside the drawer the nav is a normal vertical list again */
 
   .admin-layout {
     flex-direction: column;
   }
 
-  .admin-main {
+  .admin-main,
+  .admin-main-content {
     margin-left: 0;
+    width: 100%;
+    min-width: 0;
   }
 
+  /* Two-column header: branding on the left, close button in its
+     own column on the right. Structural rather than an offset, so
+     the button can never overlap the brand at any drawer width,
+     and it stays inside the drawer down to 320px. */
+
   .admin-sidebar-header {
-    padding: 5px 8px 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: 12px;
+    padding: 5px 0 20px;
+  }
+
+  .admin-sidebar-header .admin-brand,
+  .admin-sidebar-header p {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  /* Keeps "SmartClinicPro" on one line inside the narrower
+     mobile drawer without colliding with the close button */
+
+  .admin-sidebar-header .admin-brand {
+    font-size: 20px;
+  }
+
+  .admin-sidebar-header p {
+    margin-top: 8px;
   }
 
   .admin-nav {
-    flex-direction: row;
-    overflow-x: auto;
+    flex-direction: column;
+    overflow-x: visible;
     padding-bottom: 5px;
-  }
-
-  .admin-nav-link {
-    flex-shrink: 0;
   }
 
   .admin-sidebar-bottom {
     margin-top: 15px;
     padding-top: 15px;
-    flex-direction: row;
+    flex-direction: column;
   }
 
   .admin-bottom-link,
   .admin-logout-button {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
-}.admin-sidebar-bottom .theme-switcher { flex-wrap: wrap; justify-content: flex-start; }
-.admin-sidebar-bottom .theme-menu { right: auto; left: 0; width: 210px; }
-.admin-sidebar-bottom .theme-trigger-label { display: inline; }
-.admin-sidebar-bottom .theme-menu { top: auto; bottom: calc(100% + 10px); }
+  /* Theme menu becomes a viewport-anchored bottom sheet on mobile,
+     so it can never be clipped by the drawer or the viewport */
+  .admin-sidebar-bottom .theme-switcher {
+    flex-wrap: nowrap;
+  }
+
+  .admin-sidebar-bottom .theme-menu {
+    top: auto;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+
+    width: auto;
+    transform: none;
+  }
+
+}

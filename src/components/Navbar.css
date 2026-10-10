@@ -113,6 +113,11 @@
 
   padding: 0 17px;
 
+  /* Shared with the logged-in actions (Dashboard / Admin /
+     Appointments / Profile / Logout), which reuse these same two
+     classes. Same radius as the hero, auth and footer buttons. */
+  border-radius: var(--radius-md);
+
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 1px;

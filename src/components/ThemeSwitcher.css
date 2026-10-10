@@ -156,3 +156,36 @@
     padding: 0 10px;
   }
 }
+
+
+/* ==================================================
+   MOBILE: bottom-sheet menu
+   Anchored to the viewport instead of the trigger so it
+   can never be clipped by a sidebar, navbar or the
+   viewport edges, and can never cause horizontal scroll.
+================================================== */
+
+@media (max-width: 800px) {
+  .theme-menu {
+    position: fixed;
+    top: auto;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    z-index: 1400;
+
+    width: auto;
+    max-width: none;
+    max-height: min(70vh, 420px);
+  }
+
+  .admin-sidebar-bottom .theme-menu {
+    top: auto;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+
+    width: auto;
+    transform: none;
+  }
+}

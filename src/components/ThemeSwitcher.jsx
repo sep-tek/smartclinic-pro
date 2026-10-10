@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTheme } from "../context/ThemeContext";
 import "./ThemeSwitcher.css";
 
@@ -58,13 +59,62 @@ function ThemeSwitcher({ label = "Color theme" }) {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);
+  const menuRef = useRef(null);
   const buttonRef = useRef(null);
+
+  /* =====================================================
+     MOBILE SHEET (PORTAL)
+     ---------------------------------------------------------
+     On small screens the menu must escape its parent
+     containers. The admin sidebar is `position: fixed` with a
+     `transform` and `overflow-y: auto`, and a non-`none`
+     transform on an ancestor makes it the containing block
+     for `position: fixed` descendants — so an in-place menu
+     gets clipped and mis-positioned inside the drawer.
+
+     Rendering it into document.body removes every ancestor
+     transform, overflow and stacking context, so the sheet
+     is always positioned against the viewport.
+
+     Desktop keeps the original in-place absolute menu.
+     ===================================================== */
+
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(max-width: 800px)").matches
+      : false
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 800px)");
+
+    function onChange(event) {
+      setIsMobile(event.matches);
+    }
+
+    media.addEventListener("change", onChange);
+
+    return () => {
+      media.removeEventListener("change", onChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (!open) return;
 
     function onPointer(event) {
-      if (!rootRef.current?.contains(event.target)) {
+      const target = event.target;
+
+      /* The menu may be portaled to document.body, so it is
+         not a descendant of rootRef and must be checked too.
+         Without this, tapping an option would be treated as
+         an outside click and unmount the menu before its
+         onClick ran. */
+
+      if (
+        !rootRef.current?.contains(target) &&
+        !menuRef.current?.contains(target)
+      ) {
         setOpen(false);
       }
     }
@@ -85,6 +135,55 @@ function ThemeSwitcher({ label = "Color theme" }) {
     };
   }, [open]);
 
+  const menu = (
+    <div
+      className="theme-menu"
+      role="menu"
+      aria-label={label}
+      ref={menuRef}
+    >
+      {OPTIONS.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          role="menuitemradio"
+          aria-checked={theme === option.value}
+          className={
+            theme === option.value
+              ? "theme-option active"
+              : "theme-option"
+          }
+          onClick={() => {
+            setTheme(option.value);
+            setOpen(false);
+            buttonRef.current?.focus();
+          }}
+        >
+          <span
+            className="theme-preview"
+            data-theme={option.theme}
+            aria-hidden="true"
+          >
+            <span className="theme-preview-surface">
+              <span className="theme-preview-line" />
+              <span className="theme-preview-accent" />
+            </span>
+          </span>
+
+          <span className="theme-option-text">
+            {option.label}
+          </span>
+
+          {theme === option.value && (
+            <span className="theme-option-check" aria-hidden="true">
+              ✓
+            </span>
+          )}
+        </button>
+      ))}
+    </div>
+  );
+
   return (
     <div className="theme-switcher" ref={rootRef}>
       <button
@@ -101,49 +200,10 @@ function ThemeSwitcher({ label = "Color theme" }) {
         <span className="theme-trigger-label">{LABELS[theme] || theme}</span>
       </button>
 
-      {open && (
-        <div className="theme-menu" role="menu" aria-label={label}>
-          {OPTIONS.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              role="menuitemradio"
-              aria-checked={theme === option.value}
-              className={
-                theme === option.value
-                  ? "theme-option active"
-                  : "theme-option"
-              }
-              onClick={() => {
-                setTheme(option.value);
-                setOpen(false);
-                buttonRef.current?.focus();
-              }}
-            >
-              <span
-                className="theme-preview"
-                data-theme={option.theme}
-                aria-hidden="true"
-              >
-                <span className="theme-preview-surface">
-                  <span className="theme-preview-line" />
-                  <span className="theme-preview-accent" />
-                </span>
-              </span>
-
-              <span className="theme-option-text">
-                {option.label}
-              </span>
-
-              {theme === option.value && (
-                <span className="theme-option-check" aria-hidden="true">
-                  ✓
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-      )}
+      {open &&
+        (isMobile
+          ? createPortal(menu, document.body)
+          : menu)}
     </div>
   );
 }

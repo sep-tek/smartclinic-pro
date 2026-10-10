@@ -72,8 +72,18 @@
 /* Users section */
 
 .users-section {
+  scroll-margin-top: 24px;
+
   padding: 30px;
   border-radius: 20px;
+}
+
+.users-count-note {
+  margin: -6px 0 20px;
+
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .users-section-header {
@@ -182,6 +192,19 @@
 
 }
 
+/* The sticky admin bar appears at 800px and is ~65px tall
+   (40px button + 12px padding + 1px border), so filtered
+   results must scroll past it instead of under it.
+   Desktop spacing is unchanged. */
+
+@media (max-width: 800px) {
+
+  .users-section {
+    scroll-margin-top: 76px;
+  }
+
+}
+
 @media (max-width: 600px) {
 
   .admin-users-page {
@@ -192,8 +215,12 @@
     grid-template-columns: 1fr;
   }
 
-  .users-section {
+.users-section {
     padding: 20px;
+  }
+
+  .users-count-note {
+    margin: 0 0 16px;
   }
 
 }
