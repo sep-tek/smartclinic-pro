@@ -1,2 +1,12 @@
 node_modules/
 .env
+
+# Local-only database tooling (never commit these)
+# check-db.js              - local schema/row-count inspection
+# migration-dry-run.js     - read-only local vs Neon comparison
+# migration-run.js         - one-shot local -> Neon data migration.
+#                           Production was already migrated with it;
+#                           running it again is unsafe.
+/check-db.js
+/migration-dry-run.js
+/migration-run.js
