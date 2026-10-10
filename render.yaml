@@ -1,0 +1,36 @@
+# =====================================================
+# SmartClinic Pro — Render Blueprint
+# =====================================================
+# Only the frontend static site is declared here. The backend
+# API service is configured separately (it needs its own
+# environment variables and a Neon PostgreSQL connection).
+#
+# SPA routing: this rewrite makes React Router own every path,
+# so deep links like /services, /doctors, /about, /login and
+# /register work on direct visit and on refresh.
+#
+# Render does not apply the rule when a real file exists at
+# the requested path, so real assets (/assets/*, images) are
+# still served normally, and unknown client-side routes still
+# fall through to the app's own 404 page.
+# =====================================================
+
+services:
+  - type: web
+    name: smartclinic-pro-frontend
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    # Build-time only (Vite bakes import.meta.env into the bundle).
+    # sync: false keeps the real value in the Render dashboard and
+    # out of git; without it a rebuild would fall back to
+    # http://localhost:5000 and break every API call.
+    envVars:
+      - key: NODE_VERSION
+        value: "24.21.0"
+      - key: VITE_API_BASE_URL
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
