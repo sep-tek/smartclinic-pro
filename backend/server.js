@@ -44,12 +44,29 @@ if (process.env.NODE_ENV === "production") {
   if (!process.env.DB_PASSWORD) missing.push("DB_PASSWORD");
   if (!process.env.DB_PORT) missing.push("DB_PORT");
 
-  if (
-    process.env.JWT_SECRET ===
-    "smartclinic_super_secret_change_this_later"
-  ) {
+  /* Reject secrets that are present but weak. The placeholder is
+     long enough to pass a length check on its own, so both rules
+     are required. Messages name the variable only — never its
+     value. */
+  const MINIMUM_SECRET_LENGTH = 32;
+  const KNOWN_PLACEHOLDER_SECRETS = new Set([
+    "smartclinic_super_secret_change_this_later",
+  ]);
+
+  const configuredSecret = process.env.JWT_SECRET;
+
+  const secretIsWeak =
+    typeof configuredSecret === "string" &&
+    configuredSecret.length > 0 &&
+    (configuredSecret.length < MINIMUM_SECRET_LENGTH ||
+      KNOWN_PLACEHOLDER_SECRETS.has(configuredSecret));
+
+  if (secretIsWeak) {
     console.error(
-      "Refusing to start in production with the default placeholder JWT_SECRET."
+      `Refusing to start in production: JWT_SECRET must be at least ` +
+        `${MINIMUM_SECRET_LENGTH} characters and must not be a known ` +
+        `placeholder. Set a strong, unique secret and restart. ` +
+        `(The value itself is never logged.)`
     );
     process.exit(1);
   }

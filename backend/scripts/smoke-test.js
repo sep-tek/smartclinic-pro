@@ -12,6 +12,19 @@ const { spawn } = require("child_process");
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
+/* No substitute secret. This suite previously fell back to a hardcoded
+   literal when JWT_SECRET was absent, which meant a run could start a
+   token-signing server using a publicly known key. Fail before
+   spawning any process or touching the database. */
+if (!process.env.JWT_SECRET) {
+  console.error(
+    "JWT_SECRET is not set. Define it in backend/.env or in the " +
+      "environment before running the smoke test. Refusing to start " +
+      "with a substitute secret."
+  );
+  process.exit(1);
+}
+
 const { Client } = require("pg");
 const bcrypt = require("bcryptjs");
 
@@ -54,7 +67,7 @@ function tryStartServer(port) {
           ...process.env,
           NODE_ENV: "development",
           PORT: String(port),
-          JWT_SECRET: process.env.JWT_SECRET || "smoke-test-secret",
+          JWT_SECRET: process.env.JWT_SECRET,
           CLIENT_URL: "http://localhost:5173",
         },
         stdio: ["ignore", "pipe", "pipe"],

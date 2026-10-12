@@ -35,7 +35,12 @@ async function authenticate(req, res, next) {
   try {
     const decodedUser = jwt.verify(
       token,
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      // Tokens are signed with the jsonwebtoken default HS256
+      // (see routes/authRoutes.js). Pinning the accepted algorithms
+      // prevents a token that carries a different `alg` header from
+      // being verified, instead of relying on the library default.
+      { algorithms: ["HS256"] }
     );
 
     if (!decodedUser.id) {
