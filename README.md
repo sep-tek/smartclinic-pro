@@ -178,6 +178,8 @@ Create a `.env` file inside the `backend` directory.
 Example:
 
 ```env
+NODE_ENV=development
+
 PORT=5000
 
 DB_USER=your_database_user
@@ -190,6 +192,21 @@ JWT_SECRET=your_jwt_secret
 ```
 
 Do not commit the `.env` file to GitHub.
+
+#### About `NODE_ENV`
+
+Set `NODE_ENV=development` for local work. Only `development` and `test`
+are treated as non-production; every other value — including an unset or
+misspelled one such as `prod` — is treated as **production**, so a typo
+cannot silently disable the production safeguards (startup validation,
+HSTS, encrypted database connections and secure cookies). If you see:
+
+```
+NODE_ENV is not set; treating this process as production.
+```
+
+add the line above to `backend/.env`. The deployed server must use
+`NODE_ENV=production`.
 
 ### Start the backend
 

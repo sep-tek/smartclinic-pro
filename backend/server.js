@@ -4,6 +4,8 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 
+const { isProduction } = require("./config/env");
+
 const pool = require("./db");
 
 const authRoutes = require("./routes/authRoutes");
@@ -33,7 +35,7 @@ const PORT = process.env.PORT || 5000;
 // PRODUCTION CONFIGURATION VALIDATION
 // =====================================================
 
-if (process.env.NODE_ENV === "production") {
+if (isProduction) {
   const missing = [];
 
   if (!process.env.JWT_SECRET) missing.push("JWT_SECRET");
@@ -90,10 +92,9 @@ app.use(
     // CSP is safe and avoids interfering with the deployed frontend.
     contentSecurityPolicy: false,
     // HSTS is only appropriate once HTTPS is terminated in production.
-    strictTransportSecurity:
-      process.env.NODE_ENV === "production"
-        ? { maxAge: 15552000, includeSubDomains: true }
-        : false,
+    strictTransportSecurity: isProduction
+      ? { maxAge: 15552000, includeSubDomains: true }
+      : false,
   })
 );
 
