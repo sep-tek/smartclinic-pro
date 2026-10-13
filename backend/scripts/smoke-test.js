@@ -44,6 +44,11 @@ const TEST_DOCTOR = {
   password: "Smoke@12345",
 };
 
+/* Marker written to every appointment this suite creates. The
+   booking request and the cleanup query both reference this single
+   constant, so the row and the delete predicate cannot drift apart. */
+const APPOINTMENT_NOTES = "smoke";
+
 let passed = 0;
 let failed = 0;
 
@@ -249,6 +254,27 @@ async function main() {
       patientDoctorDash.status === 403
     );
 
+    console.log("\n== Doctor setup ==");
+
+    /* The doctor must exist before any appointment is booked:
+       appointments.doctor_id has a foreign key to doctors(id), and a
+       freshly initialised database has no doctor rows at all. The real
+       inserted id is used instead of assuming id 1. */
+    const {
+      cookie: doctorCookie,
+      userId: doctorUserId,
+      doctorId,
+    } = await createDoctorUser();
+
+    const doctorDash = await fetch(
+      `${BASE}/api/doctor-dashboard/${doctorUserId}`,
+      { headers: { Cookie: doctorCookie } }
+    );
+    check(
+      "doctor -> own dashboard -> 200",
+      doctorDash.status === 200
+    );
+
     console.log("\n== Validation ==");
     const adminCookie = await getAdminCookie();
 
@@ -314,7 +340,7 @@ async function main() {
         Cookie: patientCookie,
       },
       body: JSON.stringify({
-        doctor_id: 1,
+        doctor_id: doctorId,
         appointment_date: "not-a-date",
       }),
     });
@@ -340,24 +366,12 @@ async function main() {
         Cookie: patientCookie,
       },
       body: JSON.stringify({
-        doctor_id: 1,
+        doctor_id: doctorId,
         appointment_date: "2026-12-01T10:00:00",
-        notes: "smoke",
+        notes: APPOINTMENT_NOTES,
       }),
     });
     check("valid appointment -> 201", goodAppt.status === 201);
-
-    console.log("\n== Doctor cross-access ==");
-    const { cookie: doctorCookie, userId: doctorUserId } =
-      await createDoctorUser();
-    const doctorDash = await fetch(
-      `${BASE}/api/doctor-dashboard/${doctorUserId}`,
-      { headers: { Cookie: doctorCookie } }
-    );
-    check(
-      "doctor -> own dashboard -> 200",
-      doctorDash.status === 200
-    );
 
     console.log("\n== Auth rate limiting ==");
     let lastStatus = 0;
@@ -423,12 +437,18 @@ async function createDoctorUser() {
 
     const userId = userResult.rows[0].id;
 
-    await client.query(
-      "INSERT INTO doctors (name, specialty, experience_years, description, user_id) VALUES ($1, 'Test Specialty', 1, 'x', $2)",
+    const doctorResult = await client.query(
+      "INSERT INTO doctors (name, specialty, experience_years, description, user_id) VALUES ($1, 'Test Specialty', 1, 'x', $2) RETURNING id",
       [TEST_DOCTOR.name, userId]
     );
 
-    return { cookie: await loginAs(userId), userId };
+    const doctorId = doctorResult.rows[0].id;
+
+    return {
+      cookie: await loginAs(userId),
+      userId,
+      doctorId,
+    };
   } finally {
     await client.end();
   }
@@ -465,22 +485,38 @@ async function cleanupDatabase() {
   const client = await dbConnect();
 
   try {
-    await client.query(
-      "DELETE FROM appointments WHERE notes = 'smoke' RETURNING id"
+    const appointments = await client.query(
+      "DELETE FROM appointments WHERE notes = $1 RETURNING id",
+      [APPOINTMENT_NOTES]
     );
-    await client.query(
+
+    const contactMessages = await client.query(
       "DELETE FROM contact_messages WHERE email = $1 RETURNING id",
       ["smoke-contact@test.com"]
     );
-    await client.query(
+
+    const doctors = await client.query(
       "DELETE FROM doctors WHERE name = $1 RETURNING id",
       [TEST_DOCTOR.name]
     );
-    await client.query(
+
+    const users = await client.query(
       "DELETE FROM users WHERE email IN ($1, $2) RETURNING id",
       [TEST_USER.email, TEST_DOCTOR.email]
     );
-    console.log("Smoke test data cleaned up.");
+
+    console.log(
+      `Smoke test data cleaned up: ` +
+        `${appointments.rowCount} appointment(s), ` +
+        `${contactMessages.rowCount} contact message(s), ` +
+        `${doctors.rowCount} doctor(s), ${users.rowCount} user(s) removed.`
+    );
+  } catch (error) {
+    /* Report the failure rather than a misleading success line, and
+       make it visible in the exit status without throwing out of the
+       finally block (which would mask the test results). */
+    console.error("Smoke test cleanup FAILED:", error.message);
+    process.exitCode = 1;
   } finally {
     await client.end();
   }
