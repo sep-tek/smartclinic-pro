@@ -7,8 +7,36 @@ const {
   isNonEmptyString,
   isValidEmail,
 } = require("../utils/validate");
+const {
+  recordLoginFailure,
+  clearLoginFailures,
+} = require("../utils/loginThrottle");
 
 const router = express.Router();
+
+
+// =====================================================
+// DUMMY PASSWORD HASH
+// =====================================================
+//
+// An unregistered address has no stored hash to compare against, so that
+// request would return far faster than a wrong-password attempt and the
+// response timing would reveal whether an address is registered.
+//
+// UNKNOWN_USER_PASSWORD_HASH closes that gap. It is a real bcrypt hash at
+// the same cost factor used when passwords are stored (12), so comparing
+// against it takes about as long as a genuine comparison. The resulting
+// boolean is discarded; only the time it takes matters.
+//
+// It is fixed rather than generated per request, because hashing on each
+// unknown-address login would add a full bcrypt cost to those requests and
+// defeat the point of the exercise.
+//
+// This is a hash of a random value that was generated once and discarded.
+// It is not a credential, it unlocks no account, and it is not a secret.
+
+const UNKNOWN_USER_PASSWORD_HASH =
+  "$2b$12$Xv8qbcThg.qDYF4CcltNPePtNpYMVIAvEqK82WdDcZlyPRoV8lcI6";
 
 
 // =====================================================
@@ -196,6 +224,17 @@ router.post("/login", async (req, res) => {
 
     if (result.rows.length === 0) {
 
+      recordLoginFailure(req);
+
+      // Compare against the fixed dummy hash so an unknown address costs
+      // the same as a wrong password. The boolean result is intentionally
+      // discarded and cannot influence the response.
+
+      await bcrypt.compare(
+        password,
+        UNKNOWN_USER_PASSWORD_HASH
+      );
+
       return res.status(401).json({
         message:
           "Invalid email or password.",
@@ -205,20 +244,6 @@ router.post("/login", async (req, res) => {
 
 
     const user = result.rows[0];
-
-
-    // =================================================
-    // CHECK ACCOUNT STATUS
-    // =================================================
-
-    if (user.is_active === false) {
-
-      return res.status(403).json({
-        message:
-          "Your account has been deactivated. Please contact the clinic administrator.",
-      });
-
-    }
 
 
     // =================================================
@@ -233,6 +258,43 @@ router.post("/login", async (req, res) => {
 
 
     if (!passwordMatch) {
+
+      recordLoginFailure(req);
+
+      return res.status(401).json({
+        message:
+          "Invalid email or password.",
+      });
+
+    }
+
+
+    // =================================================
+    // CHECK ACCOUNT STATUS
+    // =================================================
+    //
+    // This runs AFTER the password comparison on purpose. Returning any
+    // distinct status or message here would tell an attacker that the
+    // address is registered, and returning before the comparison would make
+    // this the only fast response, which reveals the same thing by timing.
+    // By this point a real bcrypt comparison has already run, so every
+    // unsuccessful sign-in costs the same and answers the same.
+    //
+    // The failure counter is deliberately NOT incremented. Reaching this
+    // point required the correct password, so nothing is being guessed and
+    // there is nothing for the throttle to protect against.
+    //
+    // The server-side warning below is deliberately free of any user
+    // identifier: no address, no hash, no password, no token. An operator
+    // learns that a deactivated account was targeted but the log itself
+    // identifies nobody.
+
+    if (user.is_active === false) {
+
+      console.warn(
+        "Sign-in attempt for a deactivated account. " +
+          "Responded with the generic authentication failure."
+      );
 
       return res.status(401).json({
         message:
@@ -265,6 +327,11 @@ router.post("/login", async (req, res) => {
     // =================================================
     // RESPONSE
     // =================================================
+
+    // A correct password clears the account's failure counter, so a
+    // user who fumbles a few times is not left throttled afterwards.
+
+    clearLoginFailures(req);
 
     res.cookie("token", token, {
       httpOnly: true,

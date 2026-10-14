@@ -27,6 +27,13 @@ const contactMessageRoutes = require(
   "./routes/contactMessageRoutes"
 );
 const profileRoutes = require("./routes/profileRoutes");
+const {
+  loginFailureThrottle,
+} = require("./utils/loginThrottle");
+const {
+  loginGlobalLimiter,
+  registerGlobalLimiter,
+} = require("./utils/authLimiters");
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -120,19 +127,27 @@ const apiLimiter = rateLimit({
 
 app.use("/api", apiLimiter);
 
-// Stricter limiter for auth attempts (brute-force protection).
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 20,
-  standardHeaders: "draft-8",
-  legacyHeaders: false,
-  message: {
-    message: "Too many attempts, please try again later.",
-  },
-});
+// =====================================================
+// AUTHENTICATION LIMITERS
+// =====================================================
+//
+// Render cannot confirm a trustworthy client-IP header or a proxy hop
+// count. With `trust proxy` disabled, every request resolves to the same
+// proxy address, so any IP-keyed limit here is a clinic-wide ceiling
+// rather than a per-client one.
+//
+// Those global limiters live in utils/authLimiters so the test suite can
+// exercise the real thresholds without booting this server. Mounted here
+// alongside them is loginFailureThrottle, the per-account control that
+// depends on no client address at all.
 
-app.use("/api/auth/login", authLimiter);
-app.use("/api/auth/register", authLimiter);
+app.use(
+  "/api/auth/login",
+  loginGlobalLimiter,
+  loginFailureThrottle()
+);
+
+app.use("/api/auth/register", registerGlobalLimiter);
 
 // Public contact-form limiter (spam protection).
 const contactLimiter = rateLimit({
