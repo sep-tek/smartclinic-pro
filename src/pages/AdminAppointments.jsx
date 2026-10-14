@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { API_BASE_URL } from "../api/api";
 import { apiFetch } from "../api/api";
 import "./AdminAppointments.css";
@@ -44,6 +44,49 @@ function AdminAppointments() {
   useEffect(() => {
     loadAppointments();
   }, []);
+
+
+  // =====================================================
+  // SUMMARY CARD FILTERING AND SCROLLING
+  // =====================================================
+
+  // Scroll target for the filtered appointment list
+  const listRef = useRef(null);
+
+  /* Bumped only by a deliberate click on a summary card, so the effect
+     below can tell "the user asked to see the list" apart from "the page
+     is rendering". That keeps the initial load from scrolling, while a
+     click on an already-selected card (Total included) still scrolls,
+     because the counter changes even though `statusFilter` does not. */
+
+  const [scrollRequest, setScrollRequest] = useState(0);
+
+  // Bring the filtered list into view after a card is clicked
+  /* Runs after the click has been committed, so the newly filtered
+     cards are already rendered. `loading` is a dependency so a click
+     that lands mid-request scrolls once the cards arrive rather than
+     being dropped.
+
+     scrollIntoView walks every scrollable ancestor, so this still works
+     when the admin shell scrolls a container instead of the window. */
+
+  useEffect(() => {
+    if (scrollRequest === 0 || loading) {
+      return;
+    }
+
+    if (listRef.current) {
+      listRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [scrollRequest, loading]);
+
+  function handleFilterSelect(status) {
+    setStatusFilter(status);
+    setScrollRequest((previous) => previous + 1);
+  }
 
 
   const filteredAppointments =
@@ -110,8 +153,9 @@ function AdminAppointments() {
                 ? "appointment-stat active"
                 : "appointment-stat"
             }
+            aria-pressed={statusFilter === "all"}
             onClick={() =>
-              setStatusFilter("all")
+              handleFilterSelect("all")
             }
           >
 
@@ -136,8 +180,9 @@ function AdminAppointments() {
                 ? "appointment-stat active"
                 : "appointment-stat"
             }
+            aria-pressed={statusFilter === "pending"}
             onClick={() =>
-              setStatusFilter("pending")
+              handleFilterSelect("pending")
             }
           >
 
@@ -162,8 +207,9 @@ function AdminAppointments() {
                 ? "appointment-stat active"
                 : "appointment-stat"
             }
+            aria-pressed={statusFilter === "approved"}
             onClick={() =>
-              setStatusFilter("approved")
+              handleFilterSelect("approved")
             }
           >
 
@@ -188,8 +234,9 @@ function AdminAppointments() {
                 ? "appointment-stat active"
                 : "appointment-stat"
             }
+            aria-pressed={statusFilter === "completed"}
             onClick={() =>
-              setStatusFilter("completed")
+              handleFilterSelect("completed")
             }
           >
 
@@ -213,8 +260,9 @@ function AdminAppointments() {
       ? "appointment-stat active"
       : "appointment-stat"
   }
+  aria-pressed={statusFilter === "rejected"}
   onClick={() =>
-    setStatusFilter("rejected")
+    handleFilterSelect("rejected")
   }
 >
 
@@ -236,7 +284,10 @@ function AdminAppointments() {
 
         {/* Appointments */}
 
-        <div className="admin-appointments-section">
+        <div
+          className="admin-appointments-section"
+          ref={listRef}
+        >
 
           <div className="appointments-section-header">
 
