@@ -64,7 +64,45 @@ function Privacy() {
           </section>
 
           <section>
-            <h2>6. Information Sharing</h2>
+            <h2>6. Cookies and Local Storage</h2>
+            <p>
+              SmartClinic Pro stores information in your browser to keep
+              you signed in and to remember your preferences.
+            </p>
+            <p>
+              When you sign in, one cookie named token is set. It holds
+              your session token and is marked HttpOnly so that scripts
+              cannot read it, marked SameSite=Lax, marked Secure on the
+              deployed site, and set to expire after 24 hours. It is
+              cleared when you sign out.
+            </p>
+            <p>
+              Your browser's local storage is also used. It holds your
+              token and your basic account details while you are signed
+              in, your chosen theme, and, for doctors, which
+              notifications have already been viewed. The API accepts
+              either the session cookie or the stored token, so
+              authentication does not depend on the cookie alone.
+            </p>
+            <p>
+              Signing out clears the authentication token and your stored
+              account details from both local storage and the cookie. Your
+              theme choice and any notification state are kept after you
+              sign out. To remove everything this site has stored in your
+              browser, sign out and then clear site data for this site
+              using your browser's settings.
+            </p>
+            <p>
+              This information is used to maintain your session, to apply
+              the appearance you selected, and to avoid repeating
+              notifications you have already seen. It is not used for
+              advertising or profiling, and the application does not
+              include analytics or tracking scripts.
+            </p>
+          </section>
+
+          <section>
+            <h2>7. Information Sharing</h2>
             <p>
               We do not intentionally sell personal information to third
               parties. Information may be accessible to authorized users
@@ -74,7 +112,7 @@ function Privacy() {
           </section>
 
           <section>
-            <h2>7. Contact Messages</h2>
+            <h2>8. Contact Messages</h2>
             <p>
               Information submitted through the contact form may be stored
               so that authorized clinic administrators can review and respond
@@ -83,7 +121,7 @@ function Privacy() {
           </section>
 
           <section>
-            <h2>8. Data Retention</h2>
+            <h2>9. Data Retention</h2>
             <p>
               We retain information for as long as reasonably necessary to
               provide the services, maintain accounts, manage appointments,
@@ -92,7 +130,7 @@ function Privacy() {
           </section>
 
           <section>
-            <h2>9. Your Privacy Choices</h2>
+            <h2>10. Your Privacy Choices</h2>
             <p>
               If you have questions about your personal information or
               believe your information has been handled incorrectly, you
@@ -101,7 +139,7 @@ function Privacy() {
           </section>
 
           <section>
-            <h2>10. Changes to This Policy</h2>
+            <h2>11. Changes to This Policy</h2>
             <p>
               This Privacy Policy may be updated from time to time as
               SmartClinic Pro evolves. Any significant changes should be
@@ -110,7 +148,7 @@ function Privacy() {
           </section>
 
           <section>
-            <h2>11. Contact Us</h2>
+            <h2>12. Contact Us</h2>
             <p>
               If you have questions about this Privacy Policy, please use
               the contact form available on the SmartClinic Pro website.
@@ -120,7 +158,7 @@ function Privacy() {
         </div>
 
         <div className="privacy-footer">
-          <span>Last updated: September 2026</span>
+          <span>Last updated: October 2026</span>
         </div>
 
       </div>
