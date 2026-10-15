@@ -18,20 +18,29 @@ A full-stack clinic management platform connecting patients, doctors, and admini
 
 ## Screenshots
 
-> **No application screenshots are included in this repository yet.**
->
-> The only image assets present are a favicon, an icon sprite, and two decorative hero images — none of which depict the application interface, so none are presented as screenshots. Fabricating image paths or presenting generic artwork as product screens would misrepresent the project.
->
-> **Recommended screens to capture when convenient:**
->
-> - **Public** — Home, Services listing, Doctors directory, Doctor detail
-> - **Authentication** — Login and Register
-> - **Patient** — Dashboard and Appointments (with status filtering active)
-> - **Doctor** — Doctor dashboard and appointment status management
-> - **Admin** — Dashboard, Users, Doctors, Appointments, Contact messages
-> - **Responsive** — Admin dashboard at mobile width, showing the navigation drawer
->
-> Capturing these at roughly 1440 px wide, with the browser chrome excluded, would be enough to populate this section.
+### Homepage
+
+![SmartClinic Pro home page showing the "Healthcare simplified" hero section, primary navigation, and calls to action](docs/screenshots/homepage.png)
+
+The public landing page: hero section, navigation across the marketing pages, and authenticated account controls in the header.
+
+### Patient dashboard
+
+![Patient dashboard greeting with action cards for appointments and finding a doctor](docs/screenshots/patient-dashboard.png)
+
+Role-scoped patient home, with quick actions for managing appointments and browsing the doctor directory.
+
+### Doctor dashboard
+
+![Doctor dashboard showing appointment statistics, an unread notification badge, and status filter chips](docs/screenshots/doctor-dashboard.png)
+
+Doctor view with appointment totals broken down by status, an unread notification indicator, and filter chips for narrowing the patient appointment list.
+
+### Admin dashboard
+
+![Admin panel with sidebar navigation, platform statistics cards, and a quick actions panel](docs/screenshots/admin-dashboard.png)
+
+The admin shell: sidebar navigation plus platform-wide statistics, each card linking through to the matching management area.
 
 ---
 
